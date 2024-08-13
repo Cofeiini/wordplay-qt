@@ -1,6 +1,7 @@
 #include "wordplay.h"
 
 #include <QFileInfo>
+#include <ranges>
 
 std::optional<QString> Wordplay::extract(QString initial, const QString &word)
 {
@@ -113,7 +114,7 @@ QSet<QString> Wordplay::findAnagrams()
             QList<QString> temp(acc.begin(), acc.end());
             if (args.allowRephrased)
             {
-                std::sort(temp.begin(), temp.end());
+                std::ranges::sort(temp);
             }
 
             do
@@ -126,7 +127,7 @@ QSet<QString> Wordplay::findAnagrams()
                 }
 
                 result.insert(out);
-            } while (args.allowRephrased && std::next_permutation(temp.begin(), temp.end()));
+            } while (args.allowRephrased && std::ranges::next_permutation(temp).found);
 
             return;
         }
@@ -170,7 +171,7 @@ QList<StrPair> Wordplay::generateCandidates()
     for (const auto &word: candidates)
     {
         QString normalized = word;
-        std::sort(normalized.begin(), normalized.end());
+        std::ranges::sort(normalized);
         words.emplace_back(word, normalized);
     }
 
@@ -185,7 +186,7 @@ QList<StrPair> Wordplay::generateCandidates()
             }
         }
     }
-    std::sort(words.begin(), words.end(), [](const StrPair &a, const StrPair &b) { return a.second < b.second; });
+    std::ranges::sort(words, [](const StrPair &a, const StrPair &b) { return a.second < b.second; });
 
     if (args.listCandidates && (args.silent < SilenceLevel::RESULTS))
     {
@@ -193,11 +194,11 @@ QList<StrPair> Wordplay::generateCandidates()
 
         QList<QString> output;
         output.reserve(candidateSize);
-        for (const auto &word: words)
+        for (const auto &word: std::ranges::views::keys(words))
         {
-            output.push_back(word.first);
+            output.push_back(word);
         }
-        std::sort(output.begin(), output.end(), [](const QString &a, const QString &b) { return (a.size() != b.size()) ? (a.size() < b.size()) : (a < b); });
+        std::ranges::sort(output, [](const QString &a, const QString &b) { return (a.size() != b.size()) ? (a.size() < b.size()) : (a < b); });
 
         if (args.silent < SilenceLevel::NUMBERS)
         {
@@ -292,14 +293,14 @@ qint32 Wordplay::process()
         }
     }
 
-    std::transform(initialWord.begin(), initialWord.end(), initialWord.begin(), [](const QChar &c) { return c.toUpper(); });
-    std::transform(args.word.begin(), args.word.end(), args.word.begin(), [](const QChar &c) { return c.toUpper(); });
-    std::transform(args.letters.begin(), args.letters.end(), args.letters.begin(), [](const QChar &c) { return c.toUpper(); });
+    std::ranges::transform(initialWord, initialWord.begin(), [](const QChar &c) { return c.toUpper(); });
+    std::ranges::transform(args.word, args.word.begin(), [](const QChar &c) { return c.toUpper(); });
+    std::ranges::transform(args.letters, args.letters.begin(), [](const QChar &c) { return c.toUpper(); });
 
     printStats();
 
     originalWord = initialWord;
-    std::sort(initialWord.begin(), initialWord.end());
+    std::ranges::sort(initialWord);
 
     const auto result = findAnagrams();
     finalResult.assign(result.begin(), result.end());
@@ -316,7 +317,7 @@ qint32 Wordplay::process()
 
     if (args.sort)
     {
-        std::sort(finalResult.begin(), finalResult.end());
+        std::ranges::sort(finalResult);
     }
 
     if (args.silent < SilenceLevel::NUMBERS)
@@ -478,15 +479,15 @@ QSet<QString> Wordplay::readFile()
             continue;
         }
 
-        if (std::any_of(line.begin(), line.end(), [](const QChar &c) { return c.isDigit(); }))
+        if (std::ranges::any_of(line, [](const QChar &c) { return c.isDigit(); }))
         {
             ++stats.skipped.invalid;
             continue;
         }
 
-        std::transform(line.begin(), line.end(), line.begin(), [](const QChar &c) { return c.toUpper(); });
+        std::ranges::transform(line, line.begin(), [](const QChar &c) { return c.toUpper(); });
 
-        if (!args.letters.isEmpty() && !std::any_of(args.letters.begin(), args.letters.end(), [&](const QChar &c) { return line.contains(c); }))
+        if (!args.letters.isEmpty() && !std::ranges::any_of(args.letters, [&](const QChar &c) { return line.contains(c); }))
         {
             ++stats.skipped.character;
             continue;
