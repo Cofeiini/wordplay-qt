@@ -7,7 +7,7 @@
 #include <QLineEdit>
 #include <QTableWidget>
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
     Q_OBJECT
 
@@ -15,7 +15,7 @@ public:
     explicit MainWindow(Wordplay &core, QWidget *parent = nullptr);
 
 private:
-    void process();
+    void process() const;
 
     QLineEdit *input = nullptr;
     QLineEdit *letterFilter = nullptr;

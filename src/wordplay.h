@@ -10,17 +10,17 @@ using StrPair = QPair<QString, QString>;
 
 struct Wordplay
 {
-    static std::optional<QString> extract(QString initial, const QString &word);
-    QSet<QString> findAnagrams();
-    QList<StrPair> generateCandidates();
+    static auto extract(QString initial, const QString &word) -> std::optional<QString>;
+    auto findAnagrams() -> QSet<QString>;
+    auto generateCandidates() -> QList<StrPair>;
     void printAnagram(qint64 index, const QString &out);
     void printStats() const;
-    qint32 process();
+    auto process() -> qint32;
     void processArguments(ArgParser &input);
     void processWord(QString &word) const;
-    QSet<QString> readFile();
+    auto readFile() -> QSet<QString>;
 
-    static inline QString tr(const char text[], const char disambiguation[] = nullptr, const int n = -1)
+    static auto tr(const char *text, const char *disambiguation = nullptr, const int n = -1) -> QString
     {
         return QApplication::translate("Wordplay", text, disambiguation, n);
     }

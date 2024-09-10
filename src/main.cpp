@@ -6,9 +6,11 @@
 #include <QLocale>
 #include <QTranslator>
 
-qint32 main(qint32 argc, char *argv[])
+auto main(qint32 argc, char *argv[]) -> qint32
 {
-    QApplication app(argc, argv);
+    // NOLINTBEGIN(*-static-accessed-through-instance)
+
+    const QApplication app(argc, argv);
     app.setOrganizationName("Cofeiini");
     app.setApplicationName("WordplayQt");
     app.setApplicationVersion(APP_VERSION);
@@ -29,12 +31,9 @@ qint32 main(qint32 argc, char *argv[])
     }
 
     QTranslator translator;
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-
-    for (const QString &locale : uiLanguages)
+    for (const QString &locale : QLocale::system().uiLanguages())
     {
-        const QString baseName = QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName))
+        if (translator.load(":/i18n/" + QLocale(locale).name()))
         {
             app.installTranslator(&translator);
             break;
@@ -45,4 +44,6 @@ qint32 main(qint32 argc, char *argv[])
     window.show();
 
     return app.exec();
+
+    // NOLINTEND(*-static-accessed-through-instance)
 }

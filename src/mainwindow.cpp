@@ -191,7 +191,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     resize(768, 576);
 }
 
-void MainWindow::process()
+void MainWindow::process() const
 {
     auto word = input->text().trimmed();
     wordplay->processWord(word);
@@ -209,7 +209,7 @@ void MainWindow::process()
     {
         const auto rowCount = static_cast<qint32>(wordplay->candidateWords.size());
         candidates->setRowCount(rowCount);
-        std::sort(wordplay->candidateWords.begin(), wordplay->candidateWords.end(), [](const StrPair &a, const StrPair &b) { return (a.first.size() != b.first.size()) ? (a.first.size() < b.first.size()) : (a.first < b.first); });
+        std::ranges::sort(wordplay->candidateWords, [](const StrPair &left, const StrPair &right) { return (left.first.size() != right.first.size()) ? (left.first.size() < right.first.size()) : (left.first < right.first); });
 
         for (qint32 i = 0; i < rowCount; ++i)
         {

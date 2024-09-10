@@ -5,7 +5,7 @@
 #include <QCommandLineParser>
 #include <QDate>
 
-constexpr char DEFAULT_WORD_FILE[] = ":/words/en-US.txt";
+constexpr auto DEFAULT_WORD_FILE = ":/words/en-US.txt";
 constexpr qint32 MAX_WORD_LENGTH = 128;
 constexpr qint32 MAX_ANAGRAM_WORDS = 32;
 constexpr qint32 DEFAULT_ANAGRAM_WORDS = 4;
