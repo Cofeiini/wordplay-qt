@@ -25,4 +25,4 @@ private:
     Wordplay *wordplay = nullptr;
 };
 
-#endif // MAINWINDOW_H
+#endif

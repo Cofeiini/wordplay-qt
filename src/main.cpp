@@ -17,6 +17,16 @@ auto main(qint32 argc, char *argv[]) -> qint32
 
     Wordplay wordplay;
 
+    QTranslator translator;
+    for (const QString &locale : QLocale::system().uiLanguages())
+    {
+        if (translator.load(QString(":/i18n/wordplay_%1").arg(locale)))
+        {
+            app.installTranslator(&translator);
+            break;
+        }
+    }
+
     if (argc > 1)
     {
         ArgParser args(app);
@@ -28,16 +38,6 @@ auto main(qint32 argc, char *argv[]) -> qint32
         wordplay.processArguments(args);
 
         return wordplay.process();
-    }
-
-    QTranslator translator;
-    for (const QString &locale : QLocale::system().uiLanguages())
-    {
-        if (translator.load(":/i18n/" + QLocale(locale).name()))
-        {
-            app.installTranslator(&translator);
-            break;
-        }
     }
 
     MainWindow window(wordplay);

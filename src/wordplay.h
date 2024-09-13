@@ -10,6 +10,9 @@ using StrPair = QPair<QString, QString>;
 
 struct Wordplay
 {
+    Q_DECLARE_TR_FUNCTIONS(Wordplay)
+
+public:
     static auto extract(QString initial, const QString &word) -> std::optional<QString>;
     auto findAnagrams() -> QSet<QString>;
     auto generateCandidates() -> QList<StrPair>;
@@ -20,14 +23,7 @@ struct Wordplay
     void processWord(QString &word) const;
     auto readFile() -> QSet<QString>;
 
-    static auto tr(const char *text, const char *disambiguation = nullptr, const int n = -1) -> QString
-    {
-        return QApplication::translate("Wordplay", text, disambiguation, n);
-    }
-
     struct {
-        bool gui = false;
-
         qint32 silent = SilenceLevel::NONE;
         bool allowDuplicates = false;
         bool includeInput = false;
@@ -36,6 +32,7 @@ struct Wordplay
         bool recursive = true;
         bool sort = false;
         bool print = false;
+        bool gui = false;
 
         qint64 minimum = 1;
         qint64 maximum = MAX_WORD_LENGTH;
@@ -55,4 +52,4 @@ struct Wordplay
     QString originalWord;
 };
 
-#endif // WORDPLAY_H
+#endif

@@ -12,8 +12,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 
-set(TS_FILES
-    localization/en_US.ts
+qt_standard_project_setup(
+    I18N_SOURCE_LANGUAGE en
+    I18N_TRANSLATED_LANGUAGES fi
 )
 
 qt_add_executable(${PROJECT_NAME}
@@ -25,10 +26,14 @@ qt_add_executable(${PROJECT_NAME}
     src/wordplay.h
     src/wordplay.cpp
     src/resources.qrc
-    ${TS_FILES}
 )
 
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt_add_translations(
+    TARGETS ${PROJECT_NAME}
+    TS_FILE_BASE "wordplay"
+    TS_FILE_DIR "${CMAKE_SOURCE_DIR}/localization"
+    LUPDATE_OPTIONS -no-obsolete
+)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     APP_VERSION="${PROJECT_VERSION}"

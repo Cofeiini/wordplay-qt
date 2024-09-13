@@ -1,6 +1,7 @@
 #include "wordplay.h"
 
 #include <QFileInfo>
+
 #include <algorithm>
 #include <ranges>
 
