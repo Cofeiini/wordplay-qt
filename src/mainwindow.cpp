@@ -72,7 +72,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     depth->setRange(1, MAX_ANAGRAM_WORDS);
     depth->setValue(DEFAULT_ANAGRAM_WORDS);
     auto *depthWarning = new QLabel(tr("Big word limit will impact performance while giving poor results"));
-    depthWarning->setStyleSheet("color: red; font: bold 12px;");
+    depthWarning->setStyleSheet(QStringLiteral("color: red; font: bold 12px;"));
     depthWarning->setVisible(false);
     auto *depthLayout = new QVBoxLayout();
     depthLayout->addWidget(depth);
@@ -152,10 +152,10 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     sort->toggle();
 
     optionsLayout->addStretch();
-    auto *optionsGroup = new QGroupBox(tr("Options"));
+    auto *optionsGroup = new QGroupBox(tr("Options")); // NOLINT: False positive about a memory leak
     optionsGroup->setLayout(optionsLayout);
 
-    auto *outputLayout = new QHBoxLayout();
+    auto *outputLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
 
     output = new QTableWidget(0, 1);
     output->horizontalHeader()->setVisible(false);
@@ -174,11 +174,11 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     candidates->setVisible(false);
     outputLayout->addWidget(candidates);
 
-    auto *centralHLayout = new QHBoxLayout();
+    auto *centralHLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
     centralHLayout->addWidget(optionsGroup);
     centralHLayout->addWidget(controlsGroup);
 
-    auto *centralVLayout = new QVBoxLayout();
+    auto *centralVLayout = new QVBoxLayout(); // NOLINT: False positive about a memory leak
     centralVLayout->addLayout(centralHLayout);
     centralVLayout->addLayout(inputLayout);
     centralVLayout->addLayout(outputLayout);

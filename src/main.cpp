@@ -11,16 +11,16 @@ auto main(qint32 argc, char *argv[]) -> qint32
     // NOLINTBEGIN(*-static-accessed-through-instance)
 
     const QApplication app(argc, argv);
-    app.setOrganizationName("Cofeiini");
-    app.setApplicationName("WordplayQt");
-    app.setApplicationVersion(APP_VERSION);
+    app.setOrganizationName(QStringLiteral("Cofeiini"));
+    app.setApplicationName(QStringLiteral("WordplayQt"));
+    app.setApplicationVersion(QStringLiteral(APP_VERSION));
 
     Wordplay wordplay;
 
     QTranslator translator;
     for (const QString &locale : QLocale::system().uiLanguages())
     {
-        if (translator.load(QString(":/i18n/wordplay_%1").arg(locale)))
+        if (translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
         {
             app.installTranslator(&translator);
             break;
@@ -30,7 +30,7 @@ auto main(qint32 argc, char *argv[]) -> qint32
     if (argc > 1)
     {
         ArgParser args(app);
-        if (args.isSet("h"))
+        if (args.isSet(QStringLiteral("h")))
         {
             args.showHelp();
         }

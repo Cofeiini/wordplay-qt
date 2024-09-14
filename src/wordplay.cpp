@@ -227,7 +227,7 @@ void Wordplay::printAnagram(const qint64 index, const QString &out)
     QString result;
     if (args.silent < SilenceLevel::NUMBERS)
     {
-        result = QString("%1. ").arg(index, 8, 10, QChar(' '));
+        result = QStringLiteral("%1. ").arg(index, 8, 10, QChar(' '));
     }
     result += out;
 
@@ -271,7 +271,7 @@ void Wordplay::printStats() const
         {
             qInfo(R"(%-32s"%s")", qUtf8Printable(tr("Included word:")), qUtf8Printable(args.word));
         }
-        if (args.file != "-" && args.file != DEFAULT_WORD_FILE)
+        if (args.file != QStringLiteral("-") && args.file != DEFAULT_WORD_FILE)
         {
             qInfo(R"(%-32s"%s")", qUtf8Printable(tr("Word list file:")), qUtf8Printable(args.file));
         }
@@ -295,9 +295,9 @@ auto Wordplay::process() -> qint32
         }
     }
 
-    std::ranges::transform(initialWord, initialWord.begin(), [](const QChar &character) { return character.toUpper(); });
-    std::ranges::transform(args.word, args.word.begin(), [](const QChar &character) { return character.toUpper(); });
-    std::ranges::transform(args.letters, args.letters.begin(), [](const QChar &character) { return character.toUpper(); });
+    std::ranges::transform(initialWord, initialWord.begin(), [](const QChar character) { return character.toUpper(); });
+    std::ranges::transform(args.word, args.word.begin(), [](const QChar character) { return character.toUpper(); });
+    std::ranges::transform(args.letters, args.letters.begin(), [](const QChar character) { return character.toUpper(); });
 
     printStats();
 
@@ -346,21 +346,21 @@ void Wordplay::processArguments(ArgParser &input)
         input.showHelp();
     }
 
-    args.silent = input.value("s").toInt();
-    args.includeInput = input.isSet("i");
-    args.listCandidates = input.isSet("l");
-    args.recursive = !input.isSet("x");
-    args.allowDuplicates = input.isSet("a");
-    args.sort = input.isSet("z");
-    args.allowRephrased = input.isSet("r");
-    args.print = input.isSet("p");
-    args.minimum = input.value("n").toInt();
-    args.maximum = input.value("m").toInt();
-    args.depth = input.value("d").toInt();
-    args.letters = input.value("c");
-    args.word = input.value("w");
-    args.file = input.value("f");
-    args.output = input.value("o");
+    args.silent = input.value(QStringLiteral("s")).toInt();
+    args.includeInput = input.isSet(QStringLiteral("i"));
+    args.listCandidates = input.isSet(QStringLiteral("l"));
+    args.recursive = !input.isSet(QStringLiteral("x"));
+    args.allowDuplicates = input.isSet(QStringLiteral("a"));
+    args.sort = input.isSet(QStringLiteral("z"));
+    args.allowRephrased = input.isSet(QStringLiteral("r"));
+    args.print = input.isSet(QStringLiteral("p"));
+    args.minimum = input.value(QStringLiteral("n")).toInt();
+    args.maximum = input.value(QStringLiteral("m")).toInt();
+    args.depth = input.value(QStringLiteral("d")).toInt();
+    args.letters = input.value(QStringLiteral("c"));
+    args.word = input.value(QStringLiteral("w"));
+    args.file = input.value(QStringLiteral("f"));
+    args.output = input.value(QStringLiteral("o"));
 
     if (args.silent < SilenceLevel::NONE)
     {
@@ -419,7 +419,7 @@ void Wordplay::processWord(QString &word) const
     const auto size = word.size();
     const auto initial = word;
 
-    word.removeIf([](const QChar &character) { return !character.isLetter(); });
+    word.removeIf([](const QChar character) { return !character.isLetter(); });
 
     if (size != word.size() && !args.gui)
     {
@@ -438,7 +438,7 @@ auto Wordplay::readFile() -> QSet<QString>
 
     QFile inputFile(QFileInfo(args.file).absoluteFilePath());
     QTextStream inputStream(stdin);
-    if (args.file != "-")
+    if (args.file != QStringLiteral("-"))
     {
         if (!inputFile.open(QFile::ReadOnly | QFile::Text))
         {
@@ -468,7 +468,7 @@ auto Wordplay::readFile() -> QSet<QString>
     {
         QString line = inputStream.readLine();
 
-        line.removeIf([](const QChar &character) { return character.isSpace(); });
+        line.removeIf([](const QChar character) { return character.isSpace(); });
         if (line.isEmpty())
         {
             continue;
@@ -481,15 +481,15 @@ auto Wordplay::readFile() -> QSet<QString>
             continue;
         }
 
-        if (std::ranges::any_of(line, [](const QChar &character) { return character.isDigit(); }))
+        if (std::ranges::any_of(line, [](const QChar character) { return character.isDigit(); }))
         {
             ++stats.skipped.invalid;
             continue;
         }
 
-        std::ranges::transform(line, line.begin(), [](const QChar &character) { return character.toUpper(); });
+        std::ranges::transform(line, line.begin(), [](const QChar character) { return character.toUpper(); });
 
-        if (!args.letters.isEmpty() && !std::ranges::any_of(args.letters, [&](const QChar &character) { return line.contains(character); }))
+        if (!args.letters.isEmpty() && !std::ranges::any_of(args.letters, [&](const QChar character) { return line.contains(character); }))
         {
             ++stats.skipped.character;
             continue;

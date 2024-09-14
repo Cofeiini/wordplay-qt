@@ -35,7 +35,7 @@ qt_add_translations(
     LUPDATE_OPTIONS -no-obsolete
 )
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC
+target_compile_definitions(${PROJECT_NAME} PRIVATE
     APP_VERSION="${PROJECT_VERSION}"
 )
 
