@@ -4,7 +4,6 @@
 
 #include <QApplication>
 #include <QLocale>
-#include <QTranslator>
 
 auto main(qint32 argc, char *argv[]) -> qint32
 {
@@ -17,12 +16,11 @@ auto main(qint32 argc, char *argv[]) -> qint32
 
     Wordplay wordplay;
 
-    QTranslator translator;
     for (const QString &locale : QLocale::system().uiLanguages())
     {
-        if (translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
+        if (wordplay.translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
         {
-            app.installTranslator(&translator);
+            app.installTranslator(&wordplay.translator);
             break;
         }
     }

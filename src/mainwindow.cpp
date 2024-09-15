@@ -1,16 +1,21 @@
 #include "mainwindow.h"
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QCursor>
 #include <QGroupBox>
 #include <QHeaderView>
+#include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QSizePolicy>
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QVBoxLayout>
-#include <QLabel>
+
+#include <typeindex>
+#include <typeinfo>
 
 MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {
@@ -25,12 +30,12 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *inputLayout = new QHBoxLayout();
 
     input = new QLineEdit();
-    input->setPlaceholderText(tr("The word to anagram"));
+    addTranslatedWidget(input, QT_TR_NOOP("The word to anagram"));
     input->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     inputLayout->addWidget(input);
 
     auto *button = new QPushButton();
-    button->setText(tr("Generate"));
+    addTranslatedWidget(button, QT_TR_NOOP("Generate"));
     inputLayout->addWidget(button);
 
     connect(input, &QLineEdit::returnPressed, button, &QPushButton::click);
@@ -43,8 +48,9 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     minimum->setValue(1);
     auto *minimumLayout = new QHBoxLayout();
     minimumLayout->addWidget(minimum);
-    auto *minimumGroup = new QGroupBox(tr("Minimum characters per word"));
-    minimumGroup->setToolTip(tr("Useful for removing short words from the results"));
+    auto *minimumGroup = new QGroupBox();
+    addTranslatedWidget(minimumGroup, QT_TR_NOOP("Minimum characters per word"));
+    addTranslatedTooltip(minimumGroup, QT_TR_NOOP("Useful for removing short words from the results"));
     minimumGroup->setLayout(minimumLayout);
     controlsLayout->addWidget(minimumGroup);
 
@@ -53,8 +59,9 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     maximum->setValue(MAX_WORD_LENGTH);
     auto *maximumLayout = new QHBoxLayout();
     maximumLayout->addWidget(maximum);
-    auto *maximumGroup = new QGroupBox(tr("Maximum characters per word"));
-    maximumGroup->setToolTip(tr("Useful for removing long words from the results"));
+    auto *maximumGroup = new QGroupBox();
+    addTranslatedWidget(maximumGroup, QT_TR_NOOP("Maximum characters per word"));
+    addTranslatedTooltip(maximumGroup, QT_TR_NOOP("Useful for removing long words from the results"));
     maximumGroup->setLayout(maximumLayout);
     controlsLayout->addWidget(maximumGroup);
 
@@ -71,14 +78,16 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *depth = new QSpinBox();
     depth->setRange(1, MAX_ANAGRAM_WORDS);
     depth->setValue(DEFAULT_ANAGRAM_WORDS);
-    auto *depthWarning = new QLabel(tr("Big word limit will impact performance while giving poor results"));
+    auto *depthWarning = new QLabel();
+    addTranslatedWidget(depthWarning, QT_TR_NOOP("Big word limit will impact performance while giving poor results"));
     depthWarning->setStyleSheet(QStringLiteral("color: red; font: bold 12px;"));
     depthWarning->setVisible(false);
     auto *depthLayout = new QVBoxLayout();
     depthLayout->addWidget(depth);
     depthLayout->addWidget(depthWarning);
-    auto *depthGroup = new QGroupBox(tr("Word limit per result"));
-    depthGroup->setToolTip(tr("Useful for removing long sentences from the results"));
+    auto *depthGroup = new QGroupBox();
+    addTranslatedWidget(depthGroup, QT_TR_NOOP("Word limit per result"));
+    addTranslatedTooltip(depthGroup, QT_TR_NOOP("Useful for removing long sentences from the results"));
     depthGroup->setLayout(depthLayout);
     controlsLayout->addWidget(depthGroup);
 
@@ -88,71 +97,126 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     });
 
     letterFilter = new QLineEdit();
-    letterFilter->setPlaceholderText(tr("Optional letters for filtering the results"));
+    addTranslatedWidget(letterFilter, QT_TR_NOOP("Optional letters for filtering the results"));
     letterFilter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     controlsLayout->addWidget(letterFilter);
 
     connect(letterFilter, &QLineEdit::returnPressed, button, &QPushButton::click);
 
     wordFilter = new QLineEdit();
-    wordFilter->setPlaceholderText(tr("Optional word for filtering the results"));
+    addTranslatedWidget(wordFilter, QT_TR_NOOP("Optional word for filtering the results"));
     wordFilter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     controlsLayout->addWidget(wordFilter);
 
     connect(wordFilter, &QLineEdit::returnPressed, button, &QPushButton::click);
 
     controlsLayout->addStretch();
-    auto *controlsGroup = new QGroupBox(tr("Controls"));
+    auto *controlsGroup = new QGroupBox();
+    addTranslatedWidget(controlsGroup, QT_TR_NOOP("Controls"));
     controlsGroup->setLayout(controlsLayout);
 
     auto *optionsLayout = new QVBoxLayout();
 
     // Terminal option a
-    auto *allowDuplicates = new QCheckBox(tr("Allow duplicates in anagrams"));
-    allowDuplicates->setToolTip(tr("Useful for adding unusual results, but often produces nonsense"));
+    auto *allowDuplicates = new QCheckBox();
+    addTranslatedWidget(allowDuplicates, QT_TR_NOOP("Allow duplicates in anagrams"));
+    addTranslatedTooltip(allowDuplicates, QT_TR_NOOP("Useful for adding unusual results, but often produces nonsense"));
     optionsLayout->addWidget(allowDuplicates);
 
-    connect(allowDuplicates, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.allowDuplicates = checked; });
+    connect(allowDuplicates, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.allowDuplicates = checked; });
 
     // Terminal option i
-    auto *includeInput = new QCheckBox(tr("Include input word"));
-    includeInput->setToolTip(tr("Useful for making a more complete list of results"));
+    auto *includeInput = new QCheckBox();
+    addTranslatedWidget(includeInput, QT_TR_NOOP("Include input word"));
+    addTranslatedTooltip(includeInput, QT_TR_NOOP("Useful for making a more complete list of results"));
     optionsLayout->addWidget(includeInput);
 
-    connect(includeInput, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.includeInput = checked; });
+    connect(includeInput, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.includeInput = checked; });
     includeInput->toggle();
 
     // Terminal option l
-    auto *listCandidates = new QCheckBox(tr("List candidates"));
-    listCandidates->setToolTip(tr("Useful for visualizing the candidate words"));
+    auto *listCandidates = new QCheckBox();
+    addTranslatedWidget(listCandidates, QT_TR_NOOP("List candidates"));
+    addTranslatedTooltip(listCandidates, QT_TR_NOOP("Useful for visualizing the candidate words"));
     optionsLayout->addWidget(listCandidates);
 
-    connect(listCandidates, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.listCandidates = checked; });
+    connect(listCandidates, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.listCandidates = checked;
+        candidates->setVisible(checked);
+    });
 
     // Terminal option r
-    auto *rephrase = new QCheckBox(tr("Allow rephrased"));
-    rephrase->setToolTip(tr("Useful for getting many results, but exponentially increases resource usage"));
+    auto *rephrase = new QCheckBox();
+    addTranslatedWidget(rephrase, QT_TR_NOOP("Allow rephrased"));
+    addTranslatedTooltip(rephrase, QT_TR_NOOP("Useful for getting many results, but exponentially increases resource usage"));
     optionsLayout->addWidget(rephrase);
 
     connect(rephrase, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.allowRephrased = checked; });
 
     // Terminal option x
-    auto *noGenerate = new QCheckBox(tr("No anagrams"));
-    noGenerate->setToolTip(tr("Useful for inspecting candidates of very long input words"));
+    auto *noGenerate = new QCheckBox();
+    addTranslatedWidget(noGenerate, QT_TR_NOOP("No anagrams"));
+    addTranslatedTooltip(noGenerate, QT_TR_NOOP("Useful for inspecting candidates of very long input words"));
     optionsLayout->addWidget(noGenerate);
 
     connect(noGenerate, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.recursive = !checked; });
 
     // Terminal option z
-    auto *sort = new QCheckBox(tr("Sort results"));
-    sort->setToolTip(tr("Useful for organizing the results, but increases generation time"));
+    auto *sort = new QCheckBox();
+    addTranslatedWidget(sort, QT_TR_NOOP("Sort results"));
+    addTranslatedTooltip(sort, QT_TR_NOOP("Useful for organizing the results, but increases generation time"));
     optionsLayout->addWidget(sort);
 
     connect(sort, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.sort = checked; });
     sort->toggle();
 
+    // Translated languages
+    auto *languageLabel = new QLabel();
+    addTranslatedWidget(languageLabel, QT_TR_NOOP("Language:"));
+
+    auto *language = new QComboBox();
+    const auto languageList = QStringLiteral(I18N_TRANSLATED_LANGUAGES).split(QStringLiteral(","));
+    translatedLanguages.reserve(languageList.size());
+    for (const auto &translated : languageList)
+    {
+        translatedLanguages.append(translated);
+        language->addItem(QLocale(translated).nativeLanguageName());
+    }
+    for (const QString &locale : QLocale::system().uiLanguages())
+    {
+        const auto index = languageList.indexOf(locale);
+        if (index > -1)
+        {
+            language->setCurrentIndex(static_cast<qint32>(index));
+            break;
+        }
+    }
+
+    connect(language, &QComboBox::currentIndexChanged, this, [this](const qint32 index) {
+        const auto locale = translatedLanguages.value(index, QStringLiteral("en"));
+
+        if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
+        {
+            return;
+        }
+
+        if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_en")))
+        {
+            return;
+        }
+
+        QMessageBox::warning(this, tr("Warning"), tr("Failed to load translations for %1").arg(QLocale(locale).nativeLanguageName()), QMessageBox::Ok);
+    });
+
     optionsLayout->addStretch();
-    auto *optionsGroup = new QGroupBox(tr("Options")); // NOLINT: False positive about a memory leak
+
+    auto *languageLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
+    languageLayout->addWidget(languageLabel);
+    languageLayout->addWidget(language);
+    optionsLayout->addLayout(languageLayout);
+
+    auto *optionsGroup = new QGroupBox();
+    addTranslatedWidget(optionsGroup, QT_TR_NOOP("Options"));
     optionsGroup->setLayout(optionsLayout);
 
     auto *outputLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
@@ -191,6 +255,24 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     resize(768, 576);
 }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        for (auto iter = translatableWidgets.begin(); iter != translatableWidgets.end(); ++iter)
+        {
+            assignTranslation(iter.key(), iter.value());
+        }
+
+        for (auto iter = translatableTooltips.begin(); iter != translatableTooltips.end(); ++iter)
+        {
+            assignTooltip(iter.key(), iter.value());
+        }
+    }
+
+    QMainWindow::changeEvent(event);
+}
+
 void MainWindow::process() const
 {
     auto word = input->text().trimmed();
@@ -204,7 +286,6 @@ void MainWindow::process() const
     wordplay->process();
 
     candidates->clearContents();
-    candidates->setVisible(wordplay->args.listCandidates);
     if (wordplay->args.listCandidates)
     {
         const auto rowCount = static_cast<qint32>(wordplay->candidateWords.size());
@@ -239,4 +320,60 @@ void MainWindow::process() const
     }
 
     QApplication::restoreOverrideCursor();
+}
+
+template<typename T>
+void MainWindow::assignTranslation(T *widget, const char *text)
+{
+    static const QHash<std::type_index, std::function<void(QWidget *, const char *)>> functions = {
+        {
+            std::type_index(typeid(QLineEdit)), [](QWidget *extWidget, const char *extText) {
+                qobject_cast<QLineEdit *>(extWidget)->setPlaceholderText(tr(extText));
+            }
+        },
+        {
+            std::type_index(typeid(QPushButton)), [](QWidget *extWidget, const char *extText) {
+                qobject_cast<QPushButton *>(extWidget)->setText(tr(extText));
+            }
+        },
+        {
+            std::type_index(typeid(QGroupBox)), [](QWidget *extWidget, const char *extText) {
+                qobject_cast<QGroupBox *>(extWidget)->setTitle(tr(extText));
+            }
+        },
+        {
+            std::type_index(typeid(QLabel)), [](QWidget *extWidget, const char *extText) {
+                qobject_cast<QLabel *>(extWidget)->setText(tr(extText));
+            }
+        },
+        {
+            std::type_index(typeid(QCheckBox)), [](QWidget *extWidget, const char *extText) {
+                qobject_cast<QCheckBox *>(extWidget)->setText(tr(extText));
+            }
+        },
+    };
+
+    functions.value(std::type_index(typeid(*widget)), [](QWidget *extWidget, const char *extText) {
+        qFatal(qPrintable(QStringLiteral("Missing assignment function for a widget type (%1) with text: %2").arg(typeid(*extWidget).name(), extText)));
+    })(widget, text);
+}
+
+template<typename T>
+void MainWindow::assignTooltip(T *widget, const char *text)
+{
+    widget->setToolTip(tr(text));
+}
+
+template<typename T>
+void MainWindow::addTranslatedWidget(T *widget, const char *text)
+{
+    translatableWidgets.insert(widget, text);
+    assignTranslation(widget, text);
+}
+
+template<typename T>
+void MainWindow::addTranslatedTooltip(T *widget, const char *text)
+{
+    translatableTooltips.insert(widget, text);
+    assignTooltip(widget, text);
 }

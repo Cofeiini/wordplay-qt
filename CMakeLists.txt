@@ -35,8 +35,10 @@ qt_add_translations(
     LUPDATE_OPTIONS -no-obsolete
 )
 
+list(JOIN QT_I18N_TRANSLATED_LANGUAGES "," I18N_TRANSLATED_LANGUAGES)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     APP_VERSION="${PROJECT_VERSION}"
+    I18N_TRANSLATED_LANGUAGES="en,${I18N_TRANSLATED_LANGUAGES}"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Widgets)

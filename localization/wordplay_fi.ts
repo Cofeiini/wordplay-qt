@@ -163,137 +163,152 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="28"/>
+        <location filename="../src/mainwindow.cpp" line="33"/>
         <source>The word to anagram</source>
         <translation>Sana, josta tehdä anagrammeja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="33"/>
+        <location filename="../src/mainwindow.cpp" line="38"/>
         <source>Generate</source>
         <translation>Generoi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="46"/>
+        <location filename="../src/mainwindow.cpp" line="52"/>
         <source>Minimum characters per word</source>
         <translation>Minimimäärä merkkejä sanassa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="47"/>
+        <location filename="../src/mainwindow.cpp" line="53"/>
         <source>Useful for removing short words from the results</source>
         <translation>Kätevä lyhyeiden sanojen poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="56"/>
+        <location filename="../src/mainwindow.cpp" line="63"/>
         <source>Maximum characters per word</source>
         <translation>Maksimimäärä merkkejä sanassa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="57"/>
+        <location filename="../src/mainwindow.cpp" line="64"/>
         <source>Useful for removing long words from the results</source>
         <translation>Kätevä pitkien sanojen poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="74"/>
+        <location filename="../src/mainwindow.cpp" line="82"/>
         <source>Big word limit will impact performance while giving poor results</source>
         <translation>Suuri sanamärä vaikuttaa suorituskykyyn antaen samalla huonoja tuloksia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="80"/>
+        <location filename="../src/mainwindow.cpp" line="89"/>
         <source>Word limit per result</source>
         <translation>Tulosten sanaraja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="81"/>
+        <location filename="../src/mainwindow.cpp" line="90"/>
         <source>Useful for removing long sentences from the results</source>
         <translation>Kätevä pitkien lauseiden poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="91"/>
+        <location filename="../src/mainwindow.cpp" line="100"/>
         <source>Optional letters for filtering the results</source>
         <translation>Valinnaiset kirjaimet tulosten suodattamiseen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="98"/>
+        <location filename="../src/mainwindow.cpp" line="107"/>
         <source>Optional word for filtering the results</source>
         <translation>Valinnaiset sanat tulosten suodattamiseen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="115"/>
         <source>Controls</source>
         <translation>Hallinnat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="122"/>
         <source>Allow duplicates in anagrams</source>
         <translation>Salli duplikaatit anagrammeissa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="112"/>
+        <location filename="../src/mainwindow.cpp" line="123"/>
         <source>Useful for adding unusual results, but often produces nonsense</source>
         <translation>Kätevä epätavallisten tulosten tuottamisessa, mutta tuottaa usein pötyä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="118"/>
+        <location filename="../src/mainwindow.cpp" line="130"/>
         <source>Include input word</source>
         <translation>Sisällytä syötetty sana</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="131"/>
         <source>Useful for making a more complete list of results</source>
         <translation>Kätevä kattavampien tulosten tekemisessä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="126"/>
+        <location filename="../src/mainwindow.cpp" line="139"/>
         <source>List candidates</source>
         <translation>Listaa hakusanat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="127"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>Useful for visualizing the candidate words</source>
         <translation>Kätevä hakusanojen visualisoinnissa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="133"/>
+        <location filename="../src/mainwindow.cpp" line="150"/>
         <source>Allow rephrased</source>
         <translation>Salli uudelleen muotoilu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="134"/>
+        <location filename="../src/mainwindow.cpp" line="151"/>
         <source>Useful for getting many results, but exponentially increases resource usage</source>
         <translation>Kätevä monipulisten tulosten tekemisessä, mutta lisää eksponentiaalisesti resurssien käyttöä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="140"/>
+        <location filename="../src/mainwindow.cpp" line="158"/>
         <source>No anagrams</source>
         <translation>Ei anagrammeja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="141"/>
+        <location filename="../src/mainwindow.cpp" line="159"/>
         <source>Useful for inspecting candidates of very long input words</source>
         <translation>Kätevä tutkiessa hakusanoja, jotka kuuluvat hyvin pitkille syötetyille sanoille</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="147"/>
+        <location filename="../src/mainwindow.cpp" line="166"/>
         <source>Sort results</source>
         <translation>Lajittele tulokset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="148"/>
+        <location filename="../src/mainwindow.cpp" line="167"/>
         <source>Useful for organizing the results, but increases generation time</source>
         <translation>Kätevä tulosten järjestämisessä, mutta lisää generointiaikaa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="155"/>
+        <location filename="../src/mainwindow.cpp" line="175"/>
+        <source>Language:</source>
+        <translation>Kieli:</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="208"/>
+        <source>Warning</source>
+        <translation>Varoitus</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="208"/>
+        <source>Failed to load translations for %1</source>
+        <translation>Käännösten lataaminen kielelle %1 epäonnistui</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="219"/>
         <source>Options</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="303"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="319"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>

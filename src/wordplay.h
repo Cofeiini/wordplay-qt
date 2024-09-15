@@ -5,6 +5,7 @@
 
 #include <QFile>
 #include <QString>
+#include <QTranslator>
 
 using StrPair = QPair<QString, QString>;
 
@@ -44,6 +45,8 @@ public:
         QString file = DEFAULT_WORD_FILE;
         QString output;
     } args;
+
+    QTranslator translator;
 
     QList<StrPair> candidateWords;
     QList<QString> finalResult;
