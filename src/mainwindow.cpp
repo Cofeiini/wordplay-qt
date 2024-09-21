@@ -158,7 +158,10 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(noGenerate, QT_TR_NOOP("Useful for inspecting candidates of very long input words"));
     optionsLayout->addWidget(noGenerate);
 
-    connect(noGenerate, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.recursive = !checked; });
+    connect(noGenerate, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.recursive = !checked;
+        output->setVisible(!checked);
+    });
 
     // Terminal option z
     auto *sort = new QCheckBox();
