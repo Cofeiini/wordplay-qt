@@ -1,17 +1,16 @@
 #include "mainwindow.h"
 
 #include <QCheckBox>
-#include <QComboBox>
 #include <QCursor>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QGroupBox>
 #include <QHeaderView>
 #include <QLabel>
-#include <QLineEdit>
 #include <QMessageBox>
-#include <QPushButton>
 #include <QSizePolicy>
 #include <QSpinBox>
-#include <QTableWidget>
+#include <QStandardPaths>
 #include <QVBoxLayout>
 
 #include <typeindex>
@@ -170,6 +169,57 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     connect(sort, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.sort = checked; });
     sort->toggle();
 
+    optionsLayout->addStretch();
+
+    // Terminal option f
+    auto *wordListLabel = new QLabel();
+    addTranslatedWidget(wordListLabel, QT_TR_NOOP("Word list:"));
+
+    wordList = new QComboBox();
+    const auto wordFiles = QStringList() << QDir(QStringLiteral(":/words")).entryList() << QStringLiteral("Custom");
+    wordList->addItems(wordFiles);
+    const qint32 customIndex = static_cast<qint32>(wordFiles.size()) - 1;
+    wordList->setItemText(customIndex, tr("Custom")); // Remember to do this after setting up the items
+    wordList->setCurrentIndex(static_cast<qint32>(wordFiles.indexOf("en-US.txt")));
+    for (const auto &file : wordFiles)
+    {
+        wordListFiles.append(QStringLiteral(":/words/%1").arg(file));
+    }
+
+    wordListBrowse = new QPushButton();
+    addTranslatedWidget(wordListBrowse, QT_TR_NOOP("Browse..."));
+    wordListBrowse->setVisible(false);
+    connect(wordListBrowse, &QPushButton::pressed, this, [=, this]() {
+        const auto caption = tr("Open word list");
+        const auto home = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0);
+        const auto filter = tr("Text Files (*.txt)");
+        const auto file = QFileDialog::getOpenFileName(this, caption, home, filter);
+        if (file.isEmpty())
+        {
+            return;
+        }
+
+        wordplay->args.file = file;
+        wordListFiles[customIndex] = file;
+        wordListBrowse->setText(QFileInfo(file).fileName());
+        generate->setEnabled(QFile::exists(file));
+    });
+
+    connect(wordList, &QComboBox::currentIndexChanged, this, [=, this](const qint32 index) {
+        wordListBrowse->setVisible(index == customIndex);
+        const auto file = wordListFiles.value(index, DEFAULT_WORD_FILE);
+        wordplay->args.file = file;
+        generate->setEnabled(QFile::exists(file));
+    });
+
+    auto *wordListLayout = new QVBoxLayout();
+    auto *wordControlLayout = new QHBoxLayout();
+    wordControlLayout->addWidget(wordListLabel);
+    wordControlLayout->addWidget(wordList);
+    wordListLayout->addLayout(wordControlLayout);
+    wordListLayout->addWidget(wordListBrowse);
+    optionsLayout->addLayout(wordListLayout);
+
     // Translated languages
     auto *languageLabel = new QLabel();
     addTranslatedWidget(languageLabel, QT_TR_NOOP("Language:"));
@@ -193,22 +243,20 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     }
 
     connect(language, &QComboBox::currentIndexChanged, this, [this](const qint32 index) {
-        const auto locale = translatedLanguages.value(index, QStringLiteral("en"));
+        const auto locale = translatedLanguages.value(index, QStringLiteral("en-US"));
 
         if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
         {
             return;
         }
 
-        if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_en")))
+        if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_en-US")))
         {
             return;
         }
 
         QMessageBox::warning(this, tr("Warning"), tr("Failed to load translations for %1").arg(QLocale(locale).nativeLanguageName()), QMessageBox::Ok);
     });
-
-    optionsLayout->addStretch();
 
     auto *languageLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
     languageLayout->addWidget(languageLabel);
@@ -262,6 +310,14 @@ void MainWindow::changeEvent(QEvent *event)
         for (auto iter = translatableWidgets.begin(); iter != translatableWidgets.end(); ++iter)
         {
             assignTranslation(iter.key(), iter.value());
+        }
+
+        wordList->setItemText(wordList->count() - 1, tr("Custom"));
+
+        const auto file = wordListFiles.value(wordListFiles.size() - 1);
+        if (QFile::exists(file))
+        {
+            wordListBrowse->setText(QFileInfo(file).fileName());
         }
 
         for (auto iter = translatableTooltips.begin(); iter != translatableTooltips.end(); ++iter)

@@ -3,8 +3,10 @@
 
 #include "wordplay.h"
 
-#include <QMainWindow>
+#include <QComboBox>
 #include <QLineEdit>
+#include <QMainWindow>
+#include <QPushButton>
 #include <QTableWidget>
 
 class MainWindow final : public QMainWindow
@@ -28,12 +30,15 @@ private:
     void addTranslatedTooltip(T *widget, const char *text);
 
     QStringList translatedLanguages;
+    QStringList wordListFiles;
     QHash<QWidget *, const char *> translatableWidgets;
     QHash<QWidget *, const char *> translatableTooltips;
 
     QLineEdit *input = nullptr;
     QLineEdit *letterFilter = nullptr;
     QLineEdit *wordFilter = nullptr;
+    QComboBox *wordList = nullptr;
+    QPushButton *wordListBrowse = nullptr;
     QTableWidget *output = nullptr;
     QTableWidget *candidates = nullptr;
     Wordplay *wordplay = nullptr;

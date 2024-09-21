@@ -13,8 +13,8 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 
 qt_standard_project_setup(
-    I18N_SOURCE_LANGUAGE en
-    I18N_TRANSLATED_LANGUAGES fi
+    I18N_SOURCE_LANGUAGE en-US
+    I18N_TRANSLATED_LANGUAGES fi-FI
 )
 
 qt_add_executable(${PROJECT_NAME}
@@ -40,7 +40,7 @@ qt_add_translations(
 list(JOIN QT_I18N_TRANSLATED_LANGUAGES "," I18N_TRANSLATED_LANGUAGES)
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     APP_VERSION="${PROJECT_VERSION}"
-    I18N_TRANSLATED_LANGUAGES="en,${I18N_TRANSLATED_LANGUAGES}"
+    I18N_TRANSLATED_LANGUAGES="en-US,${I18N_TRANSLATED_LANGUAGES}"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Widgets)
