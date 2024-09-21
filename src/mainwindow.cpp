@@ -34,12 +34,12 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     input->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     inputLayout->addWidget(input);
 
-    auto *button = new QPushButton();
-    addTranslatedWidget(button, QT_TR_NOOP("Generate"));
-    inputLayout->addWidget(button);
+    auto *generate = new QPushButton();
+    addTranslatedWidget(generate, QT_TR_NOOP("Generate"));
+    inputLayout->addWidget(generate);
 
-    connect(input, &QLineEdit::returnPressed, button, &QPushButton::click);
-    connect(button, &QPushButton::clicked, this, &MainWindow::process);
+    connect(input, &QLineEdit::returnPressed, generate, &QPushButton::click);
+    connect(generate, &QPushButton::clicked, this, &MainWindow::process);
 
     auto *controlsLayout = new QVBoxLayout();
 
@@ -101,14 +101,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     letterFilter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     controlsLayout->addWidget(letterFilter);
 
-    connect(letterFilter, &QLineEdit::returnPressed, button, &QPushButton::click);
+    connect(letterFilter, &QLineEdit::returnPressed, generate, &QPushButton::click);
 
     wordFilter = new QLineEdit();
     addTranslatedWidget(wordFilter, QT_TR_NOOP("Optional word for filtering the results"));
     wordFilter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     controlsLayout->addWidget(wordFilter);
 
-    connect(wordFilter, &QLineEdit::returnPressed, button, &QPushButton::click);
+    connect(wordFilter, &QLineEdit::returnPressed, generate, &QPushButton::click);
 
     controlsLayout->addStretch();
     auto *controlsGroup = new QGroupBox();
@@ -151,7 +151,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(rephrase, QT_TR_NOOP("Useful for getting many results, but exponentially increases resource usage"));
     optionsLayout->addWidget(rephrase);
 
-    connect(rephrase, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.allowRephrased = checked; });
+    connect(rephrase, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.allowRephrased = checked; });
 
     // Terminal option x
     auto *noGenerate = new QCheckBox();
@@ -159,7 +159,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(noGenerate, QT_TR_NOOP("Useful for inspecting candidates of very long input words"));
     optionsLayout->addWidget(noGenerate);
 
-    connect(noGenerate, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.recursive = !checked; });
+    connect(noGenerate, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.recursive = !checked; });
 
     // Terminal option z
     auto *sort = new QCheckBox();
@@ -167,7 +167,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(sort, QT_TR_NOOP("Useful for organizing the results, but increases generation time"));
     optionsLayout->addWidget(sort);
 
-    connect(sort, &QCheckBox::toggled, this, [&](const bool checked) { wordplay->args.sort = checked; });
+    connect(sort, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.sort = checked; });
     sort->toggle();
 
     // Translated languages

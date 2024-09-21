@@ -28,6 +28,8 @@ qt_add_executable(${PROJECT_NAME}
     src/resources.qrc
 )
 
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+
 qt_add_translations(
     TARGETS ${PROJECT_NAME}
     TS_FILE_BASE "wordplay"

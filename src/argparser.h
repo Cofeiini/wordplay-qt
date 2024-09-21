@@ -11,7 +11,7 @@ constexpr qint32 MAX_ANAGRAM_WORDS = 32;
 constexpr qint32 DEFAULT_ANAGRAM_WORDS = 4;
 
 namespace SilenceLevel {
-    enum {
+    enum : quint8 {
         NONE,
         INFO,
         NUMBERS,

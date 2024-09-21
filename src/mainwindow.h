@@ -27,7 +27,7 @@ private:
     template<typename T>
     void addTranslatedTooltip(T *widget, const char *text);
 
-    QList<QString> translatedLanguages;
+    QStringList translatedLanguages;
     QHash<QWidget *, const char *> translatableWidgets;
     QHash<QWidget *, const char *> translatableTooltips;
 
