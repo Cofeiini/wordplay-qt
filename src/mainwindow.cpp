@@ -345,34 +345,24 @@ void MainWindow::process() const
     if (wordplay->args.listCandidates)
     {
         const auto rowCount = static_cast<qint32>(wordplay->candidateWords.size());
-        candidates->setRowCount(rowCount);
+        candidates->setRowCount(std::max(1, rowCount));
+        candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
         std::ranges::sort(wordplay->candidateWords, [](const StrPair &left, const StrPair &right) { return (left.first.size() != right.first.size()) ? (left.first.size() < right.first.size()) : (left.first < right.first); });
 
         for (qint32 i = 0; i < rowCount; ++i)
         {
             candidates->setItem(i, 0, new QTableWidgetItem(wordplay->candidateWords.at(i).first));
         }
-
-        if (rowCount == 0)
-        {
-            candidates->setRowCount(1);
-            candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
-        }
     }
 
     const auto rowCount = static_cast<qint32>(wordplay->finalResult.size());
     output->clearContents();
-    output->setRowCount(rowCount);
+    output->setRowCount(std::max(1, rowCount));
+    output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
 
     for (qint32 i = 0; i < rowCount; ++i)
     {
         output->setItem(i, 0, new QTableWidgetItem(wordplay->finalResult.at(i)));
-    }
-
-    if (rowCount == 0)
-    {
-        output->setRowCount(1);
-        output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
     }
 
     QApplication::restoreOverrideCursor();

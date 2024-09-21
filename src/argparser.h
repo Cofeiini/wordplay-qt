@@ -34,7 +34,7 @@ public:
             { SilenceLevel::RESULTS, tr("no results") },
             { SilenceLevel::STATS, tr("no stats") },
         };
-        QList<QString> silenceList;
+        QStringList silenceList;
         for (qint32 i = SilenceLevel::NONE + 1; i < SilenceLevel::ALL; ++i)
         {
             silenceList.push_back(QStringLiteral("%1 = %2").arg(i).arg(silenceMap.value(i)));

@@ -49,7 +49,7 @@ public:
     QTranslator translator;
 
     QList<StrPair> candidateWords;
-    QList<QString> finalResult;
+    QStringList finalResult;
     QFile outFile;
     QString initialWord;
     QString originalWord;

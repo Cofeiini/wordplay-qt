@@ -28,8 +28,7 @@ auto Wordplay::extract(QString initial, const QString &word) -> std::optional<QS
 
 auto Wordplay::findAnagrams() -> QSet<QString>
 {
-    QSet<QString> result;
-    QList<QString> acc;
+    QStringList acc;
 
     if (!args.word.isEmpty())
     {
@@ -104,6 +103,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
         qInfo("%s", qUtf8Printable(tr("Anagrams found:")));
     }
 
+    QSet<QString> result;
     qint64 anagramCount = 0;
     const std::function<void(const QString &, qint64)> recurse = [&](const QString &remaining, const qint64 iterator) {
         if (acc.size() > args.depth)
@@ -194,7 +194,7 @@ auto Wordplay::generateCandidates() -> QList<StrPair>
     {
         const qint64 candidateSize = words.size();
 
-        QList<QString> output;
+        QStringList output;
         output.reserve(candidateSize);
         for (const auto &word: std::ranges::views::keys(words))
         {
@@ -305,9 +305,7 @@ auto Wordplay::process() -> qint32
     std::ranges::sort(initialWord);
 
     const auto result = findAnagrams();
-    finalResult.assign(result.begin(), result.end());
-
-    if (finalResult.isEmpty())
+    if (result.isEmpty())
     {
         if (args.silent < SilenceLevel::INFO)
         {
@@ -316,6 +314,7 @@ auto Wordplay::process() -> qint32
 
         return EXIT_SUCCESS;
     }
+    finalResult.assign(result.begin(), result.end());
 
     if (args.sort)
     {
