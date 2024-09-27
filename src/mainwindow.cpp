@@ -310,7 +310,7 @@ void MainWindow::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange)
     {
-        for (auto iter = translatableWidgets.begin(); iter != translatableWidgets.end(); ++iter)
+        for (auto iter = translatableWidgets.constBegin(); iter != translatableWidgets.constEnd(); ++iter)
         {
             assignTranslation(iter.key(), iter.value());
         }
@@ -323,7 +323,7 @@ void MainWindow::changeEvent(QEvent *event)
             wordListBrowse->setText(QFileInfo(file).fileName());
         }
 
-        for (auto iter = translatableTooltips.begin(); iter != translatableTooltips.end(); ++iter)
+        for (auto iter = translatableTooltips.constBegin(); iter != translatableTooltips.constEnd(); ++iter)
         {
             assignTooltip(iter.key(), iter.value());
         }

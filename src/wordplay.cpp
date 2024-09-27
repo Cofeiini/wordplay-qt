@@ -39,7 +39,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             {
                 qInfo("");
                 qCritical("%s", qUtf8Printable(tr(R"([%1] Specified word "%2" cannot be extracted from initial string "%3".)").arg(tr("Error"), args.word, originalWord)));
-                exit(EXIT_FAILURE);
+                quick_exit(EXIT_FAILURE);
             }
 
             return {};
@@ -56,7 +56,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
 
             if (!args.gui)
             {
-                exit(EXIT_SUCCESS);
+                quick_exit(EXIT_SUCCESS);
             }
 
             return { args.word };
@@ -134,8 +134,8 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             return;
         }
 
-        const auto &[start, end] = candidateRanges[remaining.at(0)];
-        for (qint64 i = qMax(iterator, start); i <= end; ++i)
+        const auto [start, end] = candidateRanges.value(remaining.at(0));
+        for (qint64 i = std::max(iterator, start); i <= end; ++i)
         {
             const auto &[candidate, normalized] = candidateWords.at(i);
 
@@ -150,16 +150,16 @@ auto Wordplay::findAnagrams() -> QSet<QString>
                 continue;
             }
 
-            acc.push_back(candidate);
+            acc.append(candidate);
             recurse(extracted.value(), i + !args.allowDuplicates);
-            acc.pop_back();
+            acc.removeLast();
         }
     };
     recurse(initialWord, 0);
 
     if (args.print)
     {
-        exit(EXIT_SUCCESS);
+        quick_exit(EXIT_SUCCESS);
     }
 
     return result;
@@ -216,7 +216,7 @@ auto Wordplay::generateCandidates() -> QList<StrPair>
 
     if (!args.recursive && !args.gui)
     {
-        exit(EXIT_SUCCESS);
+        quick_exit(EXIT_SUCCESS);
     }
 
     return words;
