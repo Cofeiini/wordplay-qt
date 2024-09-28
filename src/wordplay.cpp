@@ -412,7 +412,7 @@ auto Wordplay::process() -> qint32
 
 void Wordplay::processArguments(ArgParser &input)
 {
-    initialWord = input.positionalArguments().at(0);
+    initialWord = input.positionalArguments().value(0);
     processWord(initialWord);
     if (initialWord.isEmpty())
     {
