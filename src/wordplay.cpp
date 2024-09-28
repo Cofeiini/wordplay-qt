@@ -1,8 +1,9 @@
 #include "wordplay.h"
 
 #include <QFileInfo>
+#include <QMutex>
+#include <QThread>
 
-#include <algorithm>
 #include <ranges>
 
 auto Wordplay::extract(QString initial, const QString &word) -> std::optional<QString>
@@ -28,7 +29,7 @@ auto Wordplay::extract(QString initial, const QString &word) -> std::optional<QS
 
 auto Wordplay::findAnagrams() -> QSet<QString>
 {
-    QStringList acc;
+    QStringList initialList;
 
     if (!args.word.isEmpty())
     {
@@ -62,7 +63,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             return { args.word };
         }
 
-        acc.push_back(args.word);
+        initialList.push_back(args.word);
         initialWord = temp.value();
     }
 
@@ -94,7 +95,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             end = candidateSize - 1;
         }
 
-        candidateRanges[letter] = std::make_pair(start, end);
+        candidateRanges[letter] = { start, end };
     }
 
     if (args.print && (args.silent < SilenceLevel::NUMBERS))
@@ -103,9 +104,10 @@ auto Wordplay::findAnagrams() -> QSet<QString>
         qInfo("%s", qUtf8Printable(tr("Anagrams found:")));
     }
 
+    QMutex mutex;
     QSet<QString> result;
     qint64 anagramCount = 0;
-    const std::function<void(const QString &, qint64)> recurse = [&](const QString &remaining, const qint64 iterator) {
+    const std::function<void(const QString &, qint64, QStringList)> recurse = [&](const QString &remaining, const qint64 iterator, QStringList acc) {
         if (acc.size() > args.depth)
         {
             return;
@@ -122,6 +124,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             do
             {
                 const auto out = temp.join(' ');
+                const QMutexLocker lock(&mutex);
                 if (args.print)
                 {
                     printAnagram(++anagramCount, out);
@@ -134,12 +137,12 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             return;
         }
 
-        const auto [start, end] = candidateRanges.value(remaining.at(0));
+        const auto [start, end] = candidateRanges.value(remaining.at(0), { 0, -1 });
         for (qint64 i = std::max(iterator, start); i <= end; ++i)
         {
             const auto &[candidate, normalized] = candidateWords.at(i);
 
-            if (!args.allowDuplicates && !acc.empty() && acc.contains(candidate))
+            if (!args.allowDuplicates && !acc.isEmpty() && acc.contains(candidate))
             {
                 continue;
             }
@@ -151,11 +154,40 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             }
 
             acc.append(candidate);
-            recurse(extracted.value(), i + !args.allowDuplicates);
+            recurse(extracted.value(), i + static_cast<qint64>(!args.allowDuplicates), acc);
             acc.removeLast();
         }
     };
-    recurse(initialWord, 0);
+
+    QList<QThread *> workers;
+    const auto [start, end] = candidateRanges.value(initialWord.at(0), { 0, -1 });
+    for (qint64 i = std::max(0LL, start); i <= end; ++i)
+    {
+        const auto &[candidate, normalized] = candidateWords.at(i);
+
+        if (!args.allowDuplicates && !initialList.isEmpty() && initialList.contains(candidate))
+        {
+            continue;
+        }
+
+        const auto extracted = extract(initialWord, normalized);
+        if (!extracted)
+        {
+            continue;
+        }
+
+        initialList.append(candidate);
+        auto *worker = QThread::create(recurse, extracted.value(), i + static_cast<qint64>(!args.allowDuplicates), initialList);
+        QObject::connect(worker, &QThread::finished, worker, &QThread::deleteLater);
+        workers.append(worker);
+        worker->start();
+        initialList.removeLast();
+    }
+
+    for (auto *worker : workers)
+    {
+        worker->wait();
+    }
 
     if (args.print)
     {
@@ -169,12 +201,53 @@ auto Wordplay::generateCandidates() -> QList<StrPair>
 {
     const auto candidates = readFile();
 
+    QMutex mutex;
+    const int cores = QThread::idealThreadCount();
+    const qint64 total = candidates.size();
+    const qint64 portions = std::floor(static_cast<float>(total) / static_cast<float>(cores));
+
     QList<StrPair> words;
-    for (const auto &word: candidates)
+
+    QList<QThread *> workers;
+    workers.reserve(cores);
+    for (int i = 0; i < cores; ++i)
     {
-        QString normalized = word;
-        std::ranges::sort(normalized);
-        words.emplace_back(word, normalized);
+        const qint64 start = portions * i;
+        const qint64 end = portions * (i + 1);
+        const auto list = QStringList(candidates.begin() + start, candidates.begin() + end);
+
+        auto *worker = QThread::create([=, &mutex, &words]() {
+            for (const auto &word : list)
+            {
+                QString normalized = word;
+                std::ranges::sort(normalized);
+
+                const QMutexLocker lock(&mutex);
+                words.emplace_back(word, normalized);
+            }
+        });
+        QObject::connect(worker, &QThread::finished, worker, &QThread::deleteLater);
+        workers.append(worker);
+        worker->start();
+    }
+
+    for (auto *worker : workers)
+    {
+        worker->wait();
+    }
+
+    const qint64 extra = total - (portions * cores);
+    if (extra > 0)
+    {
+        const qint64 start = portions * cores;
+        const qint64 end = start + extra;
+        for (qint64 i = start; i < end; ++i)
+        {
+            const auto &word = candidates.at(i);
+            QString normalized = word;
+            std::ranges::sort(normalized);
+            words.emplace_back(word, normalized);
+        }
     }
 
     if (!args.includeInput)
@@ -427,7 +500,7 @@ void Wordplay::processWord(QString &word) const
     }
 }
 
-auto Wordplay::readFile() -> QSet<QString>
+auto Wordplay::readFile() -> QStringList
 {
     if (args.silent < SilenceLevel::INFO)
     {
@@ -462,7 +535,7 @@ auto Wordplay::readFile() -> QSet<QString>
         } skipped;
     } stats;
 
-    QSet<QString> wordSet;
+    QStringList wordList;
     while (!inputStream.atEnd())
     {
         QString line = inputStream.readLine();
@@ -502,13 +575,13 @@ auto Wordplay::readFile() -> QSet<QString>
 
         stats.longest = std::max(line.size(), stats.longest);
 
-        wordSet.insert(line);
+        wordList.append(line);
     }
 
     if (args.silent < SilenceLevel::INFO)
     {
         qInfo("");
-        qInfo("%s", qUtf8Printable(tr("[%1] %2 of %3 words loaded. Longest word was %n letter(s).", nullptr, static_cast<int>(stats.longest)).arg(tr("Info")).arg(wordSet.size()).arg(stats.processed)));
+        qInfo("%s", qUtf8Printable(tr("[%1] %2 of %3 words loaded. Longest word was %n letter(s).", nullptr, static_cast<int>(stats.longest)).arg(tr("Info")).arg(wordList.size()).arg(stats.processed)));
         if (stats.skipped.length > 0)
         {
             qInfo("%s", qUtf8Printable(tr("[%1] %2 words containing wrong amount of characters").arg(tr("Info")).arg(stats.skipped.length)));
@@ -527,7 +600,7 @@ auto Wordplay::readFile() -> QSet<QString>
         }
     }
 
-    if (wordSet.empty())
+    if (wordList.isEmpty())
     {
         if (args.silent < SilenceLevel::INFO)
         {
@@ -535,5 +608,5 @@ auto Wordplay::readFile() -> QSet<QString>
         }
     }
 
-    return wordSet;
+    return wordList;
 }

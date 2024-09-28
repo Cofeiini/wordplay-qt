@@ -22,7 +22,7 @@ public:
     auto process() -> qint32;
     void processArguments(ArgParser &input);
     void processWord(QString &word) const;
-    auto readFile() -> QSet<QString>;
+    auto readFile() -> QStringList;
 
     struct {
         qint32 silent = SilenceLevel::NONE;

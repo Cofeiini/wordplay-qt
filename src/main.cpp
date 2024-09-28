@@ -30,7 +30,7 @@ auto main(qint32 argc, char *argv[]) -> qint32
         ArgParser args(app);
         if (args.isSet(QStringLiteral("h")))
         {
-            args.showHelp();
+            args.showHelp(); // This will exit the program with EXIT_SUCCESS
         }
 
         wordplay.processArguments(args);
