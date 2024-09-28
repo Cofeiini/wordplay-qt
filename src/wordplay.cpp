@@ -261,6 +261,7 @@ auto Wordplay::generateCandidates() -> QList<StrPair>
             }
         }
     }
+
     std::ranges::sort(words, [](const StrPair &left, const StrPair &right) { return left.second < right.second; });
 
     if (args.listCandidates && (args.silent < SilenceLevel::RESULTS))
@@ -577,6 +578,9 @@ auto Wordplay::readFile() -> QStringList
 
         wordList.append(line);
     }
+
+    std::ranges::sort(wordList);
+    wordList.erase(std::ranges::unique(wordList).cbegin(), wordList.cend());
 
     if (args.silent < SilenceLevel::INFO)
     {
