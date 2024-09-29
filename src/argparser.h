@@ -15,8 +15,8 @@ namespace SilenceLevel {
         NONE,
         INFO,
         NUMBERS,
-        RESULTS,
         STATS,
+        RESULTS,
         ALL,
     };
 }
@@ -31,8 +31,8 @@ public:
         const QHash<qint32, QString> silenceMap {
             { SilenceLevel::INFO, tr("no info messages") },
             { SilenceLevel::NUMBERS, tr("no line numbers") },
-            { SilenceLevel::RESULTS, tr("no results") },
             { SilenceLevel::STATS, tr("no stats") },
+            { SilenceLevel::RESULTS, tr("no results") },
         };
         QStringList silenceList;
         for (qint32 i = SilenceLevel::NONE + 1; i < SilenceLevel::ALL; ++i)
