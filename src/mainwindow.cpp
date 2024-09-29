@@ -94,7 +94,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     });
 
     letterFilter = new QLineEdit();
-    addTranslatedWidget(letterFilter, QT_TR_NOOP("Optional letters for filtering the results"));
+    addTranslatedWidget(letterFilter, QT_TR_NOOP("Optional letters for filtering the candidates"));
     letterFilter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     controlsLayout->addWidget(letterFilter);
 
