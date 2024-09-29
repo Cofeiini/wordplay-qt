@@ -182,6 +182,9 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     const qint32 customIndex = static_cast<qint32>(wordFiles.size()) - 1;
     wordList->setItemText(customIndex, tr("Custom")); // Remember to do this after setting up the items
     wordList->setCurrentIndex(static_cast<qint32>(wordFiles.indexOf("en-US.txt")));
+
+    wordListFiles.clear();
+    wordListFiles.reserve(wordFiles.size());
     for (const auto &file : wordFiles)
     {
         wordListFiles.append(QStringLiteral(":/words/%1").arg(file));
@@ -332,14 +335,20 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::process() const
 {
-    auto word = input->text().trimmed();
+    auto initial = input->text().trimmed();
+    wordplay->processWord(initial);
+
+    auto letters = letterFilter->text().trimmed();
+    wordplay->processWord(letters);
+
+    auto word = wordFilter->text();
     wordplay->processWord(word);
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    wordplay->args.letters = letterFilter->text();
-    wordplay->args.word = wordFilter->text();
-    wordplay->initialWord = word;
+    wordplay->args.letters = letters;
+    wordplay->args.word = word;
+    wordplay->initialWord = initial;
     wordplay->process();
 
     candidates->clearContents();

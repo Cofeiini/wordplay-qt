@@ -487,6 +487,11 @@ void Wordplay::processArguments(ArgParser &input)
     {
         processWord(args.word);
     }
+
+    if (!args.letters.isEmpty())
+    {
+        processWord(args.letters);
+    }
 }
 
 void Wordplay::processWord(QString &word) const
