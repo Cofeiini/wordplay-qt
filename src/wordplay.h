@@ -4,7 +4,6 @@
 #include "argparser.h"
 
 #include <QFile>
-#include <QString>
 #include <QTranslator>
 
 using StrPair = QPair<QString, QString>;

@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
 #include <QCheckBox>
-#include <QCursor>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QGroupBox>
@@ -14,7 +13,6 @@
 #include <QVBoxLayout>
 
 #include <typeindex>
-#include <typeinfo>
 
 MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {

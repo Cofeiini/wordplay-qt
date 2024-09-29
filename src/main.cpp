@@ -1,6 +1,4 @@
-#include "argparser.h"
 #include "mainwindow.h"
-#include "wordplay.h"
 
 #include <QApplication>
 #include <QLocale>
