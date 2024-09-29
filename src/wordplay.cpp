@@ -379,6 +379,7 @@ auto Wordplay::process() -> qint32
     std::ranges::sort(initialWord);
 
     const auto result = findAnagrams();
+    finalResult.clear();
     if (result.isEmpty())
     {
         if (args.silent < SilenceLevel::INFO)
@@ -388,6 +389,7 @@ auto Wordplay::process() -> qint32
 
         return EXIT_SUCCESS;
     }
+    finalResult.reserve(result.size());
     finalResult.assign(result.begin(), result.end());
 
     if (args.sort)
