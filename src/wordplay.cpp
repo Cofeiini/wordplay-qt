@@ -10,11 +10,6 @@ auto Wordplay::extract(QString initial, const QString &word) -> std::optional<QS
 {
     for (const QChar &character : word)
     {
-        if (character.isPunct())
-        {
-            continue;
-        }
-
         const auto found = initial.indexOf(character, 0, Qt::CaseInsensitive);
         if (found == -1)
         {
@@ -499,7 +494,7 @@ void Wordplay::processWord(QString &word) const
     const auto size = word.size();
     const auto initial = word;
 
-    word.removeIf([](const QChar character) { return !character.isLetter(); });
+    word.removeIf([](const QChar character) { return !character.isPrint(); });
 
     if (size != word.size() && !args.gui)
     {
@@ -555,15 +550,11 @@ auto Wordplay::readFile() -> QStringList
         }
 
         ++stats.processed;
-        if (line.size() < args.minimum || line.size() > args.maximum || line.size() > initialWord.size())
+
+        const qint64 lineSize = line.size();
+        if (lineSize > initialWord.size() || lineSize < args.minimum || lineSize > args.maximum)
         {
             ++stats.skipped.length;
-            continue;
-        }
-
-        if (std::ranges::any_of(line, [](const QChar character) { return character.isDigit(); }))
-        {
-            ++stats.skipped.invalid;
             continue;
         }
 
@@ -592,14 +583,16 @@ auto Wordplay::readFile() -> QStringList
     if (args.silent < SilenceLevel::INFO)
     {
         qInfo("");
+        if (wordList.isEmpty())
+        {
+            qInfo("%s", qUtf8Printable(tr("[%1] No candidate words were found.").arg(tr("Info"))));
+            return wordList;
+        }
+
         qInfo("%s", qUtf8Printable(tr("[%1] %2 of %3 words loaded. Longest word was %n letter(s).", nullptr, static_cast<int>(stats.longest)).arg(tr("Info")).arg(wordList.size()).arg(stats.processed)));
         if (stats.skipped.length > 0)
         {
             qInfo("%s", qUtf8Printable(tr("[%1] %2 words containing wrong amount of characters").arg(tr("Info")).arg(stats.skipped.length)));
-        }
-        if (stats.skipped.invalid > 0)
-        {
-            qInfo("%s", qUtf8Printable(tr("[%1] %2 words containing non-alphabetical characters").arg(tr("Info")).arg(stats.skipped.invalid)));
         }
         if (stats.skipped.character > 0)
         {
@@ -608,14 +601,6 @@ auto Wordplay::readFile() -> QStringList
         if (stats.skipped.extract > 0)
         {
             qInfo("%s", qUtf8Printable(tr("[%1] %2 words not found in the input word").arg(tr("Info")).arg(stats.skipped.extract)));
-        }
-    }
-
-    if (wordList.isEmpty())
-    {
-        if (args.silent < SilenceLevel::INFO)
-        {
-            qInfo("%s", qUtf8Printable(tr("[%1] No candidate words were found.").arg(tr("Info"))));
         }
     }
 
