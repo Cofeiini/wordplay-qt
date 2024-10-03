@@ -30,7 +30,7 @@ private:
     void addTranslatedTooltip(T *widget, const char *text);
 
     QStringList translatedLanguages;
-    QStringList wordListFiles;
+    QHash<QString, QString> wordListFiles;
     QHash<QWidget *, const char *> translatableWidgets;
     QHash<QWidget *, const char *> translatableTooltips;
 
@@ -38,7 +38,6 @@ private:
     QLineEdit *letterFilter = nullptr;
     QLineEdit *wordFilter = nullptr;
     QComboBox *wordList = nullptr;
-    QPushButton *wordListBrowse = nullptr;
     QTableWidget *output = nullptr;
     QTableWidget *candidates = nullptr;
     Wordplay *wordplay = nullptr;

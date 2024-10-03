@@ -288,53 +288,32 @@
         <translation>Sanalista:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="183"/>
-        <location filename="../src/mainwindow.cpp" line="319"/>
-        <source>Custom</source>
-        <translation>Mukautettu</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="194"/>
-        <source>Browse...</source>
-        <translation>Selaa...</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="197"/>
-        <source>Open word list</source>
-        <translation>Avaa sanalista</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="199"/>
-        <source>Text Files (*.txt)</source>
-        <translation>Tekstitiedostot (*.txt)</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="229"/>
+        <location filename="../src/mainwindow.cpp" line="214"/>
         <source>Language:</source>
         <translation>Kieli:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="262"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Warning</source>
         <translation>Varoitus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="262"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Failed to load translations for %1</source>
         <translation>Käännösten lataaminen kielelle %1 epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="271"/>
+        <location filename="../src/mainwindow.cpp" line="256"/>
         <source>Options</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="359"/>
+        <location filename="../src/mainwindow.cpp" line="336"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="371"/>
+        <location filename="../src/mainwindow.cpp" line="348"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>
