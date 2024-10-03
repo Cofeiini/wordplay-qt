@@ -14,7 +14,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 
 qt_standard_project_setup(
     I18N_SOURCE_LANGUAGE en-US
-    I18N_TRANSLATED_LANGUAGES fi-FI
+    I18N_TRANSLATED_LANGUAGES fi-FI # Append new IETF tags here
 )
 
 qt_add_executable(${PROJECT_NAME}
@@ -52,5 +52,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_directory "${PROJECT_SOURCE_DIR}/src/words" "${PROJECT_BINARY_DIR}/words")
 
 qt_finalize_executable(${PROJECT_NAME})
