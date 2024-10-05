@@ -4,158 +4,158 @@
 <context>
     <name>ArgParser</name>
     <message>
-        <location filename="../src/argparser.h" line="32"/>
+        <location filename="../src/argparser.h" line="34"/>
         <source>no info messages</source>
         <translation>ei tiedotusviestejä</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="33"/>
+        <location filename="../src/argparser.h" line="35"/>
         <source>no line numbers</source>
         <translation>ei rivinumeroita</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="35"/>
+        <location filename="../src/argparser.h" line="37"/>
         <source>no results</source>
         <translation>ei tuloksia</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="34"/>
+        <location filename="../src/argparser.h" line="36"/>
         <source>no stats</source>
         <translation>ei tilastoja</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="43"/>
+        <location filename="../src/argparser.h" line="45"/>
         <source>Build %1</source>
         <translation>Toteutus %1</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="44"/>
+        <location filename="../src/argparser.h" line="46"/>
         <source>original by Evans A Criswell</source>
         <translation>alkuperäisen sovelluksen oli laatinut Evans A Chriswell</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="45"/>
+        <location filename="../src/argparser.h" line="47"/>
         <source>WordplayQt %1 (%2).</source>
         <translation>WordplayQt %1 (%2).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="50"/>
+        <location filename="../src/argparser.h" line="52"/>
         <source>Input word for finding anagrams.</source>
         <translation>Syötetty sana anagrammien hakuun.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="50"/>
+        <location filename="../src/argparser.h" line="52"/>
         <source>input_word</source>
         <translation>syöte</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="51"/>
+        <location filename="../src/argparser.h" line="53"/>
         <source>Allow multiple occurrences of a word in an anagram.</source>
         <translation>Salli sanan useampi esiintyminen anagrammissa.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="52"/>
+        <location filename="../src/argparser.h" line="54"/>
         <source>&lt;letters&gt; to include in words (useful with l option).</source>
         <translation>Sanoihin sisällytettävät &lt;kirjaimet&gt; (kätevä l-valitsimen kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="53"/>
+        <location filename="../src/argparser.h" line="55"/>
         <source>Limit anagrams to &lt;amount&gt; of words.</source>
         <translation>Rajaa anagrammit &lt;määrä&gt; sanoja.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="54"/>
+        <location filename="../src/argparser.h" line="56"/>
         <source>&lt;file&gt; to use as word list (&quot;-&quot; for stdin).</source>
         <translation>&lt;tiedosto&gt;, jota käytetään sanaluettelona (&quot;-&quot;, kun halutaan stdin).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="55"/>
+        <location filename="../src/argparser.h" line="57"/>
         <source>Include the input word in anagram list.</source>
         <translation>Sisällytä syötetty sana anagrammeissa.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="56"/>
+        <location filename="../src/argparser.h" line="58"/>
         <source>List candidate words.</source>
         <translation>Listaa hakusanat.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="57"/>
+        <location filename="../src/argparser.h" line="59"/>
         <source>Candidate words must have a &lt;maximum&gt; number of characters.</source>
         <translation>Hakusanojen tulee olla &lt;maksimi&gt; määrä merkkejä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="58"/>
+        <location filename="../src/argparser.h" line="60"/>
         <source>Candidate words must have a &lt;minimum&gt; number of characters.</source>
         <translation>Hakusanojen tulee olla &lt;minimi&gt; määrä merkkejä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="59"/>
+        <location filename="../src/argparser.h" line="61"/>
         <source>&lt;file&gt; to use for writing results (can be used with s and z options).</source>
         <translation>&lt;tiedosto&gt;, johon tulokset kirjoitetaan (voidaan käyttää s- ja z-valitsimien kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="60"/>
+        <location filename="../src/argparser.h" line="62"/>
         <source>Print results immediately (ignores z option).</source>
         <translation>Tulosta tulokset heti (jättää z-valitsimen huomiotta).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="61"/>
+        <location filename="../src/argparser.h" line="63"/>
         <source>Allow results to contain the same words in different order.</source>
         <translation>Salli tulosten sisältää samat sanat eri järjestyksessä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="62"/>
+        <location filename="../src/argparser.h" line="64"/>
         <source>Silence &lt;level&gt; (%1).</source>
         <translation>Mykistys &lt;taso&gt; (%1).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="63"/>
+        <location filename="../src/argparser.h" line="65"/>
         <source>&lt;word&gt; to include in anagrams (assumes i option).</source>
         <translation>&lt;sana&gt;, joka tulee olla anagrammeissa (olettaa i-valitsimen).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="64"/>
+        <location filename="../src/argparser.h" line="66"/>
         <source>Do not generate anagrams (useful with l option).</source>
         <translation>Älä generoi anagrammeja (kätevä l-valitsimen kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="65"/>
+        <location filename="../src/argparser.h" line="67"/>
         <source>Sort the final results.</source>
         <translation>Lajittele lopputulokset.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="52"/>
+        <location filename="../src/argparser.h" line="54"/>
         <source>letters</source>
         <translation>kirjaimet</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="53"/>
+        <location filename="../src/argparser.h" line="55"/>
         <source>amount</source>
         <translation>määrä</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="54"/>
-        <location filename="../src/argparser.h" line="59"/>
+        <location filename="../src/argparser.h" line="56"/>
+        <location filename="../src/argparser.h" line="61"/>
         <source>file</source>
         <translation>tiedosto</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="57"/>
+        <location filename="../src/argparser.h" line="59"/>
         <source>maximum</source>
         <translation>maksimi</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="58"/>
+        <location filename="../src/argparser.h" line="60"/>
         <source>minimum</source>
         <translation>minimi</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="62"/>
+        <location filename="../src/argparser.h" line="64"/>
         <source>level</source>
         <translation>taso</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="63"/>
+        <location filename="../src/argparser.h" line="65"/>
         <source>word</source>
         <translation>sana</translation>
     </message>
@@ -163,157 +163,159 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="30"/>
+        <location filename="../src/mainwindow.cpp" line="47"/>
         <source>The word to anagram</source>
         <translation>Sana, josta tehdä anagrammeja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="35"/>
+        <location filename="../src/mainwindow.cpp" line="52"/>
         <source>Generate</source>
         <translation>Generoi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="49"/>
+        <location filename="../src/mainwindow.cpp" line="66"/>
         <source>Minimum characters per word</source>
         <translation>Minimimäärä merkkejä sanassa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="50"/>
+        <location filename="../src/mainwindow.cpp" line="67"/>
         <source>Useful for removing short words from the results</source>
         <translation>Kätevä lyhyeiden sanojen poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="60"/>
+        <location filename="../src/mainwindow.cpp" line="77"/>
         <source>Maximum characters per word</source>
         <translation>Maksimimäärä merkkejä sanassa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="61"/>
+        <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Useful for removing long words from the results</source>
         <translation>Kätevä pitkien sanojen poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="96"/>
         <source>Big word limit will impact performance while giving poor results</source>
         <translation>Suuri sanamärä vaikuttaa suorituskykyyn antaen samalla huonoja tuloksia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="86"/>
+        <location filename="../src/mainwindow.cpp" line="103"/>
         <source>Word limit per result</source>
         <translation>Tulosten sanaraja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="87"/>
+        <location filename="../src/mainwindow.cpp" line="104"/>
         <source>Useful for removing long sentences from the results</source>
         <translation>Kätevä pitkien lauseiden poistamiseen tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="97"/>
+        <location filename="../src/mainwindow.cpp" line="114"/>
         <source>Optional letters for filtering the candidates</source>
         <translation>Valinnaiset kirjaimet hakusanojen suodattamiseen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="104"/>
+        <location filename="../src/mainwindow.cpp" line="121"/>
         <source>Optional word for filtering the results</source>
         <translation>Valinnaiset sanat tulosten suodattamiseen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="112"/>
+        <location filename="../src/mainwindow.cpp" line="129"/>
         <source>Controls</source>
         <translation>Hallinnat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="136"/>
         <source>Allow duplicates in anagrams</source>
         <translation>Salli duplikaatit anagrammeissa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="137"/>
         <source>Useful for adding unusual results, but often produces nonsense</source>
         <translation>Kätevä epätavallisten tulosten tuottamisessa, mutta tuottaa usein pötyä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="127"/>
+        <location filename="../src/mainwindow.cpp" line="144"/>
         <source>Include input word</source>
         <translation>Sisällytä syötetty sana</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="128"/>
+        <location filename="../src/mainwindow.cpp" line="145"/>
         <source>Useful for making a more complete list of results</source>
         <translation>Kätevä kattavampien tulosten tekemisessä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="136"/>
+        <location filename="../src/mainwindow.cpp" line="153"/>
         <source>List candidates</source>
         <translation>Listaa hakusanat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="137"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>Useful for visualizing the candidate words</source>
         <translation>Kätevä hakusanojen visualisoinnissa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="147"/>
+        <location filename="../src/mainwindow.cpp" line="164"/>
         <source>Allow rephrased</source>
         <translation>Salli uudelleen muotoilu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="148"/>
+        <location filename="../src/mainwindow.cpp" line="165"/>
         <source>Useful for getting many results, but exponentially increases resource usage</source>
         <translation>Kätevä monipulisten tulosten tekemisessä, mutta lisää eksponentiaalisesti resurssien käyttöä</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="155"/>
+        <location filename="../src/mainwindow.cpp" line="172"/>
         <source>No anagrams</source>
         <translation>Ei anagrammeja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="173"/>
         <source>Useful for inspecting candidates of very long input words</source>
         <translation>Kätevä tutkiessa hakusanoja, jotka kuuluvat hyvin pitkille syötetyille sanoille</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="166"/>
+        <location filename="../src/mainwindow.cpp" line="183"/>
         <source>Sort results</source>
         <translation>Lajittele tulokset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="167"/>
+        <location filename="../src/mainwindow.cpp" line="184"/>
         <source>Useful for organizing the results, but increases generation time</source>
         <translation>Kätevä tulosten järjestämisessä, mutta lisää generointiaikaa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="177"/>
+        <location filename="../src/mainwindow.cpp" line="194"/>
         <source>Word list:</source>
         <translation>Sanalista:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="214"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Language:</source>
         <translation>Kieli:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="273"/>
         <source>Warning</source>
         <translation>Varoitus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="273"/>
         <source>Failed to load translations for %1</source>
         <translation>Käännösten lataaminen kielelle %1 epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="256"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
         <source>Options</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="336"/>
+        <location filename="../src/mainwindow.cpp" line="303"/>
+        <location filename="../src/mainwindow.cpp" line="362"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="348"/>
+        <location filename="../src/mainwindow.cpp" line="293"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>

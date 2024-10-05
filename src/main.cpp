@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QDir>
 #include <QLocale>
 
 auto main(qint32 argc, char *argv[]) -> qint32
@@ -11,6 +12,23 @@ auto main(qint32 argc, char *argv[]) -> qint32
     app.setOrganizationName(QStringLiteral("Cofeiini"));
     app.setApplicationName(QStringLiteral("WordplayQt"));
     app.setApplicationVersion(QStringLiteral(APP_VERSION));
+
+    const auto wordsPath = QStringLiteral("%1/words").arg(CONFIG_PATH);
+    if (QDir().mkpath(wordsPath))
+    {
+        QFile defaultFile(QStringLiteral("%1/en-US.txt").arg(wordsPath));
+        if (!defaultFile.exists())
+        {
+            if (defaultFile.open(QFile::Text | QFile::ReadWrite | QFile::Truncate))
+            {
+                QFile embeddedFile(QStringLiteral(":/words/en-US.txt"));
+                if (embeddedFile.open(QFile::Text | QFile::ReadOnly))
+                {
+                    defaultFile.write(embeddedFile.readAll());
+                }
+            }
+        }
+    }
 
     Wordplay wordplay;
 

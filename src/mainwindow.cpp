@@ -193,16 +193,24 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *wordListLabel = new QLabel();
     addTranslatedWidget(wordListLabel, QT_TR_NOOP("Word list:"));
 
-    wordList = new QComboBox();
-    const auto wordsPath = QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath());
-    const auto wordFiles = QDir(wordsPath, QStringLiteral("*.txt"), QDir::SortFlag::Name | QDir::SortFlag::IgnoreCase, QDir::Filter::Files).entryList();
+    const auto configWordsPath = QStringLiteral("%1/words").arg(CONFIG_PATH);
+    const auto localWordsPath = QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath());
+
+    const auto nameFilter = QStringLiteral("*.txt");
+    constexpr auto sortFlags = QDir::SortFlag::Name | QDir::SortFlag::IgnoreCase;
+    const auto configFiles = QDir(configWordsPath, nameFilter, sortFlags, QDir::Filter::Files).entryList();
+    const auto localFiles = QDir(localWordsPath, nameFilter, sortFlags, QDir::Filter::Files).entryList();
 
     wordListFiles.clear();
-    wordListFiles.reserve(wordFiles.size());
+    wordListFiles.reserve(localFiles.size());
     wordListFiles.insert(QStringLiteral("en-US.txt"), QStringLiteral(":/words/en-US.txt"));
-    for (const auto &file : wordFiles)
+    for (const auto &file : configFiles)
     {
-        wordListFiles.insert(file, QStringLiteral("%1/%2").arg(wordsPath, file));
+        wordListFiles.insert(file, QStringLiteral("%1/%2").arg(configWordsPath, file));
+    }
+    for (const auto &file : localFiles)
+    {
+        wordListFiles.insert(file, QStringLiteral("%1/%2").arg(localWordsPath, file));
     }
 
     QStringList tempList;
@@ -212,6 +220,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     }
     std::ranges::sort(tempList, [](const QString &left, const QString &right){ return left < right; });
 
+    wordList = new QComboBox();
     wordList->addItems(tempList);
     wordList->setCurrentIndex(static_cast<qint32>(tempList.indexOf("en-US.txt")));
 
