@@ -15,6 +15,8 @@
 
 #include <typeindex>
 
+namespace {
+
 struct OverrideCursor
 {
     Q_NODISCARD_CTOR
@@ -30,6 +32,8 @@ struct OverrideCursor
 
     Q_DISABLE_COPY(OverrideCursor)
 };
+
+}
 
 MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {

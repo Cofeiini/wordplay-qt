@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QLocale>
+#include <QStandardPaths>
 
 auto main(qint32 argc, char *argv[]) -> qint32
 {
