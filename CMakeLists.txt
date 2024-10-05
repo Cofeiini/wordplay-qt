@@ -53,6 +53,18 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_directory "${PROJECT_SOURCE_DIR}/src/words" "${PROJECT_BINARY_DIR}/words")
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND}
+    ARGS --build "${PROJECT_BINARY_DIR}" --target update_translations
+    COMMENT "Updating translation files..."
+)
+
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND}
+    ARGS -E copy_directory "${PROJECT_SOURCE_DIR}/src/words" "${PROJECT_BINARY_DIR}/words"
+    COMMENT "Copying words from source to binary folder..."
+)
 
 qt_finalize_executable(${PROJECT_NAME})
