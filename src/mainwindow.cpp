@@ -7,12 +7,29 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QSizePolicy>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
 #include <typeindex>
+
+struct OverrideCursor
+{
+    Q_NODISCARD_CTOR
+    explicit OverrideCursor(const Qt::CursorShape cursor)
+    {
+        QApplication::setOverrideCursor(cursor);
+    }
+
+    ~OverrideCursor()
+    {
+        QApplication::restoreOverrideCursor();
+    }
+
+    Q_DISABLE_COPY(OverrideCursor)
+};
 
 MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {
@@ -209,7 +226,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     wordListLayout->addWidget(wordList);
     optionsLayout->addLayout(wordListLayout);
 
-    // Translated languages
+    // Terminal environment variable LANGUAGE
     auto *languageLabel = new QLabel();
     addTranslatedWidget(languageLabel, QT_TR_NOOP("Language:"));
 
@@ -247,7 +264,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
         QMessageBox::warning(this, tr("Warning"), tr("Failed to load translations for %1").arg(QLocale(locale).nativeLanguageName()), QMessageBox::Ok);
     });
 
-    auto *languageLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
+    auto *languageLayout = new QHBoxLayout();
     languageLayout->addWidget(languageLabel);
     languageLayout->addWidget(language);
     optionsLayout->addLayout(languageLayout);
@@ -256,30 +273,32 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedWidget(optionsGroup, QT_TR_NOOP("Options"));
     optionsGroup->setLayout(optionsLayout);
 
-    auto *outputLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
+    auto *outputLayout = new QHBoxLayout();
 
-    output = new QTableWidget(0, 1);
+    output = new QTableWidget(1, 1);
     output->horizontalHeader()->setVisible(false);
     output->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     output->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     output->setEditTriggers(QTableWidget::NoEditTriggers);
     output->setAlternatingRowColors(true);
+    output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
     outputLayout->addWidget(output);
 
-    candidates = new QTableWidget(0, 1);
+    candidates = new QTableWidget(1, 1);
     candidates->horizontalHeader()->setVisible(false);
     candidates->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     candidates->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     candidates->setEditTriggers(QTableWidget::NoEditTriggers);
     candidates->setAlternatingRowColors(true);
     candidates->setVisible(false);
+    candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
     outputLayout->addWidget(candidates);
 
-    auto *centralHLayout = new QHBoxLayout(); // NOLINT: False positive about a memory leak
+    auto *centralHLayout = new QHBoxLayout();
     centralHLayout->addWidget(optionsGroup);
     centralHLayout->addWidget(controlsGroup);
 
-    auto *centralVLayout = new QVBoxLayout(); // NOLINT: False positive about a memory leak
+    auto *centralVLayout = new QVBoxLayout();
     centralVLayout->addLayout(centralHLayout);
     centralVLayout->addLayout(inputLayout);
     centralVLayout->addLayout(outputLayout);
@@ -321,7 +340,7 @@ void MainWindow::process() const
     auto word = wordFilter->text();
     wordplay->processWord(word);
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    [[maybe_unused]] const OverrideCursor overrideCursor(Qt::WaitCursor);
 
     wordplay->args.letters = letters;
     wordplay->args.word = word;
@@ -329,30 +348,25 @@ void MainWindow::process() const
     wordplay->process();
 
     candidates->clearContents();
-    if (wordplay->args.listCandidates)
-    {
-        const auto rowCount = static_cast<qint32>(wordplay->candidateWords.size());
-        candidates->setRowCount(std::max(1, rowCount));
-        candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
-        std::ranges::sort(wordplay->candidateWords, [](const StrPair &left, const StrPair &right) { return (left.first.size() != right.first.size()) ? (left.first.size() < right.first.size()) : (left.first < right.first); });
+    const auto candidateCount = static_cast<qint32>(wordplay->candidateWords.size());
+    candidates->setRowCount(std::max(1, candidateCount));
+    candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
+    std::ranges::sort(wordplay->candidateWords, [](const StrPair &left, const StrPair &right) { return (left.first.size() != right.first.size()) ? (left.first.size() < right.first.size()) : (left.first < right.first); });
 
-        for (qint32 i = 0; i < rowCount; ++i)
-        {
-            candidates->setItem(i, 0, new QTableWidgetItem(wordplay->candidateWords.at(i).first));
-        }
+    for (qint32 i = 0; i < candidateCount; ++i)
+    {
+        candidates->setItem(i, 0, new QTableWidgetItem(wordplay->candidateWords.at(i).first));
     }
 
-    const auto rowCount = static_cast<qint32>(wordplay->finalResult.size());
     output->clearContents();
-    output->setRowCount(std::max(1, rowCount));
+    const auto resultCount = static_cast<qint32>(wordplay->finalResult.size());
+    output->setRowCount(std::max(1, resultCount));
     output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
 
-    for (qint32 i = 0; i < rowCount; ++i)
+    for (qint32 i = 0; i < resultCount; ++i)
     {
         output->setItem(i, 0, new QTableWidgetItem(wordplay->finalResult.at(i)));
     }
-
-    QApplication::restoreOverrideCursor();
 }
 
 template<typename T>

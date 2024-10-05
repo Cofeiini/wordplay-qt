@@ -40,7 +40,7 @@ public:
             silenceList.push_back(QStringLiteral("%1 = %2").arg(i).arg(silenceMap.value(i)));
         }
 
-        const QString build = tr("Build %1").arg(QDate::fromString(QStringLiteral(__DATE__), QStringLiteral("MMM d yyyy")).toString(QStringLiteral("yyyy-MM-dd")));
+        const QString build = tr("Build %1").arg(QDate::fromString(QStringLiteral(__DATE__).simplified(), QStringLiteral("MMM d yyyy")).toString(QStringLiteral("yyyy-MM-dd")));
         const QString credit = tr("original by Evans A Criswell");
         setApplicationDescription(tr("WordplayQt %1 (%2).").arg(build, credit));
 

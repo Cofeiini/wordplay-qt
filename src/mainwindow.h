@@ -6,7 +6,6 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QMainWindow>
-#include <QPushButton>
 #include <QTableWidget>
 
 class MainWindow final : public QMainWindow
