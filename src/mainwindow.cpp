@@ -195,7 +195,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     // Terminal option f
     auto *wordListLabel = new QLabel();
-    addTranslatedWidget(wordListLabel, QT_TR_NOOP("Word list:"));
+    addTranslatedWidget(wordListLabel, QT_TR_NOOP("Wordlist:"));
 
     const auto configWordsPath = QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     const auto localWordsPath = QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath());

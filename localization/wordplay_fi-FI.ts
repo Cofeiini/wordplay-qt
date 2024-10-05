@@ -284,7 +284,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="198"/>
-        <source>Word list:</source>
+        <source>Wordlist:</source>
         <translation>Sanalista:</translation>
     </message>
     <message>
