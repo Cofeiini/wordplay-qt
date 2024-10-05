@@ -329,7 +329,7 @@
     </message>
     <message>
         <location filename="../src/wordplay.cpp" line="69"/>
-        <location filename="../src/wordplay.cpp" line="570"/>
+        <location filename="../src/wordplay.cpp" line="569"/>
         <source>Error</source>
         <translation>Virhe</translation>
     </message>
@@ -476,11 +476,12 @@
     <message>
         <location filename="../src/wordplay.cpp" line="414"/>
         <location filename="../src/wordplay.cpp" line="543"/>
-        <location filename="../src/wordplay.cpp" line="637"/>
+        <location filename="../src/wordplay.cpp" line="576"/>
         <location filename="../src/wordplay.cpp" line="641"/>
-        <location filename="../src/wordplay.cpp" line="644"/>
+        <location filename="../src/wordplay.cpp" line="645"/>
         <location filename="../src/wordplay.cpp" line="648"/>
         <location filename="../src/wordplay.cpp" line="652"/>
+        <location filename="../src/wordplay.cpp" line="656"/>
         <source>Info</source>
         <translation>Tiedotus</translation>
     </message>
@@ -535,12 +536,17 @@
         <translation>[%1] Sanoja ladataan ja suodatetaan...</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="570"/>
+        <location filename="../src/wordplay.cpp" line="569"/>
         <source>[%1] Unable to open file &quot;%2&quot;</source>
         <translation>[%1] Tiedoston &quot;%2&quot; avaaminen epäonnistui</translation>
     </message>
+    <message>
+        <location filename="../src/wordplay.cpp" line="576"/>
+        <source>[%1] Reading file &quot;%2&quot; from &quot;%3&quot;</source>
+        <translation>[%1] Luetaan tiedosto &quot;%2&quot; kansiosta &quot;%3&quot;</translation>
+    </message>
     <message numerus="yes">
-        <location filename="../src/wordplay.cpp" line="641"/>
+        <location filename="../src/wordplay.cpp" line="645"/>
         <source>[%1] %2 of %3 words loaded. Longest word was %n letter(s).</source>
         <translation>
             <numerusform>[%1] %3:sta sanasta %2 sanaa ladattu. Pisimmän sanan pituus oli %n merkki.</numerusform>
@@ -548,22 +554,22 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="644"/>
+        <location filename="../src/wordplay.cpp" line="648"/>
         <source>[%1] %2 words containing wrong amount of characters</source>
         <translation>[%1] %2 sanaa, jotka sisälsivät väärän määrän merkkejä</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="648"/>
+        <location filename="../src/wordplay.cpp" line="652"/>
         <source>[%1] %2 words not containing input characters</source>
         <translation>[%1] %2 sanaa, jotka eivät sisältäneet syötettyjä merkkejä</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="652"/>
+        <location filename="../src/wordplay.cpp" line="656"/>
         <source>[%1] %2 words not found in the input word</source>
         <translation>[%1] %2 sanoja, joita ei löytnyt syötetystä sanasta</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="637"/>
+        <location filename="../src/wordplay.cpp" line="641"/>
         <source>[%1] No candidate words were found.</source>
         <translation>[%1] Hakusanoja ei löytnyt.</translation>
     </message>

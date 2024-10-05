@@ -566,10 +566,14 @@ auto Wordplay::readFile() -> QStringList
 
         if (!inputFile.open(QFile::ReadOnly | QFile::Text))
         {
-            qInfo("");
             qCritical("%s", qUtf8Printable(tr(R"([%1] Unable to open file "%2")").arg(tr("Error"), args.file)));
 
             return {};
+        }
+
+        if (args.silent < SilenceLevel::INFO)
+        {
+            qInfo("%s", qUtf8Printable(tr(R"([%1] Reading file "%2" from "%3")").arg(tr("Info"), info.fileName(), QDir::currentPath())));
         }
 
         inputStream.setDevice(&inputFile);
