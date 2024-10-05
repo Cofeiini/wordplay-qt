@@ -1,10 +1,42 @@
 #include "wordplay.h"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QMutex>
+#include <QStandardPaths>
 #include <QThread>
 
 #include <ranges>
+
+namespace {
+
+struct InputDirectory
+{
+    Q_NODISCARD_CTOR
+    explicit InputDirectory(const QString &path)
+    {
+        original = QDir::currentPath();
+        setCurrent(path);
+    }
+
+    ~InputDirectory()
+    {
+        QDir::setCurrent(original);
+    }
+
+    Q_DISABLE_COPY(InputDirectory)
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // NOLINTNEXTLINE(*-convert-member-functions-to-static)
+    void setCurrent(const QString &path) const
+    {
+        QDir::setCurrent(path);
+    }
+
+    QString original;
+};
+
+}
 
 auto Wordplay::extract(QString initial, const QString &word) -> std::optional<QString>
 {
@@ -511,10 +543,27 @@ auto Wordplay::readFile() -> QStringList
         qInfo("%s", qUtf8Printable(tr("[%1] Words are being loaded and filtered...").arg(tr("Info"))));
     }
 
-    QFile inputFile(QFileInfo(args.file).absoluteFilePath());
+    // Need to manually handle the tilde in the path
+    if (args.file.startsWith(QStringLiteral("~/")))
+    {
+        args.file.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    }
+
     QTextStream inputStream(stdin);
+    const QFileInfo info(args.file);
+    QFile inputFile(info.fileName()); // Remember to specify the input file here, so that it doesn't get deleted before reading is done
     if (args.file != QStringLiteral("-"))
     {
+        const InputDirectory directoryHandle(info.absolutePath());
+        if (!inputFile.exists())
+        {
+            directoryHandle.setCurrent(QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath()));
+            if (!inputFile.exists())
+            {
+                directoryHandle.setCurrent(QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)));
+            }
+        }
+
         if (!inputFile.open(QFile::ReadOnly | QFile::Text))
         {
             qInfo("");
