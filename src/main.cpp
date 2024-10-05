@@ -13,7 +13,7 @@ auto main(qint32 argc, char *argv[]) -> qint32
     app.setApplicationName(QStringLiteral("WordplayQt"));
     app.setApplicationVersion(QStringLiteral(APP_VERSION));
 
-    const auto wordsPath = QStringLiteral("%1/words").arg(CONFIG_PATH);
+    const auto wordsPath = QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     if (QDir().mkpath(wordsPath))
     {
         QFile defaultFile(QStringLiteral("%1/en-US.txt").arg(wordsPath));

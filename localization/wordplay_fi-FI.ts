@@ -4,158 +4,158 @@
 <context>
     <name>ArgParser</name>
     <message>
-        <location filename="../src/argparser.h" line="34"/>
+        <location filename="../src/argparser.h" line="33"/>
         <source>no info messages</source>
         <translation>ei tiedotusviestejä</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="35"/>
+        <location filename="../src/argparser.h" line="34"/>
         <source>no line numbers</source>
         <translation>ei rivinumeroita</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="37"/>
+        <location filename="../src/argparser.h" line="36"/>
         <source>no results</source>
         <translation>ei tuloksia</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="36"/>
+        <location filename="../src/argparser.h" line="35"/>
         <source>no stats</source>
         <translation>ei tilastoja</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="45"/>
+        <location filename="../src/argparser.h" line="44"/>
         <source>Build %1</source>
         <translation>Toteutus %1</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="46"/>
+        <location filename="../src/argparser.h" line="45"/>
         <source>original by Evans A Criswell</source>
         <translation>alkuperäisen sovelluksen oli laatinut Evans A Chriswell</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="47"/>
+        <location filename="../src/argparser.h" line="46"/>
         <source>WordplayQt %1 (%2).</source>
         <translation>WordplayQt %1 (%2).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="52"/>
+        <location filename="../src/argparser.h" line="51"/>
         <source>Input word for finding anagrams.</source>
         <translation>Syötetty sana anagrammien hakuun.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="52"/>
+        <location filename="../src/argparser.h" line="51"/>
         <source>input_word</source>
         <translation>syöte</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="53"/>
+        <location filename="../src/argparser.h" line="52"/>
         <source>Allow multiple occurrences of a word in an anagram.</source>
         <translation>Salli sanan useampi esiintyminen anagrammissa.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="54"/>
+        <location filename="../src/argparser.h" line="53"/>
         <source>&lt;letters&gt; to include in words (useful with l option).</source>
         <translation>Sanoihin sisällytettävät &lt;kirjaimet&gt; (kätevä l-valitsimen kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="55"/>
+        <location filename="../src/argparser.h" line="54"/>
         <source>Limit anagrams to &lt;amount&gt; of words.</source>
         <translation>Rajaa anagrammit &lt;määrä&gt; sanoja.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="56"/>
+        <location filename="../src/argparser.h" line="55"/>
         <source>&lt;file&gt; to use as word list (&quot;-&quot; for stdin).</source>
         <translation>&lt;tiedosto&gt;, jota käytetään sanaluettelona (&quot;-&quot;, kun halutaan stdin).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="57"/>
+        <location filename="../src/argparser.h" line="56"/>
         <source>Include the input word in anagram list.</source>
         <translation>Sisällytä syötetty sana anagrammeissa.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="58"/>
+        <location filename="../src/argparser.h" line="57"/>
         <source>List candidate words.</source>
         <translation>Listaa hakusanat.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="59"/>
+        <location filename="../src/argparser.h" line="58"/>
         <source>Candidate words must have a &lt;maximum&gt; number of characters.</source>
         <translation>Hakusanojen tulee olla &lt;maksimi&gt; määrä merkkejä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="60"/>
+        <location filename="../src/argparser.h" line="59"/>
         <source>Candidate words must have a &lt;minimum&gt; number of characters.</source>
         <translation>Hakusanojen tulee olla &lt;minimi&gt; määrä merkkejä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="61"/>
+        <location filename="../src/argparser.h" line="60"/>
         <source>&lt;file&gt; to use for writing results (can be used with s and z options).</source>
         <translation>&lt;tiedosto&gt;, johon tulokset kirjoitetaan (voidaan käyttää s- ja z-valitsimien kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="62"/>
+        <location filename="../src/argparser.h" line="61"/>
         <source>Print results immediately (ignores z option).</source>
         <translation>Tulosta tulokset heti (jättää z-valitsimen huomiotta).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="63"/>
+        <location filename="../src/argparser.h" line="62"/>
         <source>Allow results to contain the same words in different order.</source>
         <translation>Salli tulosten sisältää samat sanat eri järjestyksessä.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="64"/>
+        <location filename="../src/argparser.h" line="63"/>
         <source>Silence &lt;level&gt; (%1).</source>
         <translation>Mykistys &lt;taso&gt; (%1).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="65"/>
+        <location filename="../src/argparser.h" line="64"/>
         <source>&lt;word&gt; to include in anagrams (assumes i option).</source>
         <translation>&lt;sana&gt;, joka tulee olla anagrammeissa (olettaa i-valitsimen).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="66"/>
+        <location filename="../src/argparser.h" line="65"/>
         <source>Do not generate anagrams (useful with l option).</source>
         <translation>Älä generoi anagrammeja (kätevä l-valitsimen kanssa).</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="67"/>
+        <location filename="../src/argparser.h" line="66"/>
         <source>Sort the final results.</source>
         <translation>Lajittele lopputulokset.</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="54"/>
+        <location filename="../src/argparser.h" line="53"/>
         <source>letters</source>
         <translation>kirjaimet</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="55"/>
+        <location filename="../src/argparser.h" line="54"/>
         <source>amount</source>
         <translation>määrä</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="56"/>
-        <location filename="../src/argparser.h" line="61"/>
+        <location filename="../src/argparser.h" line="55"/>
+        <location filename="../src/argparser.h" line="60"/>
         <source>file</source>
         <translation>tiedosto</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="59"/>
+        <location filename="../src/argparser.h" line="58"/>
         <source>maximum</source>
         <translation>maksimi</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="60"/>
+        <location filename="../src/argparser.h" line="59"/>
         <source>minimum</source>
         <translation>minimi</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="64"/>
+        <location filename="../src/argparser.h" line="63"/>
         <source>level</source>
         <translation>taso</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="65"/>
+        <location filename="../src/argparser.h" line="64"/>
         <source>word</source>
         <translation>sana</translation>
     </message>

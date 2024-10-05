@@ -6,7 +6,6 @@
 #include <QDate>
 #include <QStandardPaths>
 
-const auto CONFIG_PATH = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
 constexpr auto DEFAULT_WORD_FILE = ":/words/en-US.txt";
 constexpr qint32 MAX_WORD_LENGTH = 128;
 constexpr qint32 MAX_ANAGRAM_WORDS = 32;

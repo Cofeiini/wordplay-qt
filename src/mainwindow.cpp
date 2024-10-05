@@ -193,7 +193,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *wordListLabel = new QLabel();
     addTranslatedWidget(wordListLabel, QT_TR_NOOP("Word list:"));
 
-    const auto configWordsPath = QStringLiteral("%1/words").arg(CONFIG_PATH);
+    const auto configWordsPath = QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     const auto localWordsPath = QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath());
 
     const auto nameFilter = QStringLiteral("*.txt");
