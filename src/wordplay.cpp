@@ -388,7 +388,15 @@ auto Wordplay::process() -> qint32
 {
     if (!args.output.isEmpty())
     {
-        outFile.setFileName(args.output);
+        // Need to manually handle the tilde in the path
+        if (args.output.startsWith(QStringLiteral("~/")))
+        {
+            args.output.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+        }
+
+        const QFileInfo info(args.output);
+        outFile.setFileName(info.fileName());
+        [[maybe_unused]] const InputDirectory directoryHandle(info.absolutePath());
         if (!outFile.open(QFile::WriteOnly | QFile::Truncate))
         {
             qWarning("%s", qUtf8Printable(tr(R"([%1] Failed to open "%2" for writing.)").arg(tr("Warning"), args.output)));

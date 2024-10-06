@@ -22,7 +22,7 @@ auto main(qint32 argc, char *argv[]) -> qint32
         {
             if (defaultFile.open(QFile::Text | QFile::ReadWrite | QFile::Truncate))
             {
-                QFile embeddedFile(QStringLiteral(":/words/en-US.txt"));
+                QFile embeddedFile(DEFAULT_WORD_FILE);
                 if (embeddedFile.open(QFile::Text | QFile::ReadOnly))
                 {
                     defaultFile.write(embeddedFile.readAll());

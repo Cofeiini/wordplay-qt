@@ -7,7 +7,6 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QMessageBox>
-#include <QPushButton>
 #include <QSizePolicy>
 #include <QSpinBox>
 #include <QStandardPaths>
@@ -205,39 +204,92 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     const auto configFiles = QDir(configWordsPath, nameFilter, sortFlags, QDir::Filter::Files).entryList();
     const auto localFiles = QDir(localWordsPath, nameFilter, sortFlags, QDir::Filter::Files).entryList();
 
-    wordListFiles.clear();
-    wordListFiles.reserve(localFiles.size());
-    wordListFiles.insert(QStringLiteral("en-US.txt"), QStringLiteral(":/words/en-US.txt"));
+    wordlistFiles.clear();
+    wordlistFiles.reserve(std::max(configFiles.size(), localFiles.size()));
+    wordlistFiles.insert(QStringLiteral("en-US.txt"), QStringLiteral(":/words/en-US.txt"));
     for (const auto &file : configFiles)
     {
-        wordListFiles.insert(file, QStringLiteral("%1/%2").arg(configWordsPath, file));
+        wordlistFiles.insert(file, QStringLiteral("%1/%2").arg(configWordsPath, file));
     }
     for (const auto &file : localFiles)
     {
-        wordListFiles.insert(file, QStringLiteral("%1/%2").arg(localWordsPath, file));
+        wordlistFiles.insert(file, QStringLiteral("%1/%2").arg(localWordsPath, file));
     }
 
     QStringList tempList;
-    for (auto iter = wordListFiles.constBegin(); iter != wordListFiles.constEnd(); ++iter)
+    for (auto iter = wordlistFiles.constBegin(); iter != wordlistFiles.constEnd(); ++iter)
     {
         tempList.append(iter.key());
     }
     std::ranges::sort(tempList, [](const QString &left, const QString &right){ return left < right; });
 
-    wordList = new QComboBox();
-    wordList->addItems(tempList);
-    wordList->setCurrentIndex(static_cast<qint32>(tempList.indexOf("en-US.txt")));
+    wordlist = new QComboBox();
+    wordlist->addItems(tempList);
+    wordlist->setCurrentIndex(static_cast<qint32>(tempList.indexOf("en-US.txt")));
 
-    connect(wordList, &QComboBox::currentTextChanged, this, [=, this](const QString &text) {
-        const auto file = wordListFiles.value(text, DEFAULT_WORD_FILE);
+    connect(wordlist, &QComboBox::currentTextChanged, this, [=, this](const QString &text) {
+        const auto file = wordlistFiles.value(text, DEFAULT_WORD_FILE);
         wordplay->args.file = file;
         generate->setEnabled(QFile::exists(file));
     });
 
     auto *wordListLayout = new QHBoxLayout();
     wordListLayout->addWidget(wordListLabel);
-    wordListLayout->addWidget(wordList);
+    wordListLayout->addWidget(wordlist);
     optionsLayout->addLayout(wordListLayout);
+
+    // Terminal option o
+    auto *outputPath = new QLineEdit();
+    addTranslatedWidget(outputPath, QT_TR_NOOP("File to use for writing results"));
+    outputPath->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    connect(outputPath, &QLineEdit::textChanged, this, [this](const QString &text) {
+        canSave.output = !text.isEmpty();
+        outputSave->setEnabled(canSave.value >= 3);
+    });
+
+    auto *outputBrowse = new QPushButton();
+    addTranslatedWidget(outputBrowse, QT_TR_NOOP("Browse"));
+    outputBrowse->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+    connect(outputBrowse, &QPushButton::pressed, this, [=, this]() {
+        outputPath->setText(QFileDialog::getSaveFileName(this, tr("Select output file")));
+    });
+
+    outputSave = new QPushButton();
+    addTranslatedWidget(outputSave, QT_TR_NOOP("Save"));
+    outputSave->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    outputSave->setEnabled(false);
+
+    connect(outputSave, &QPushButton::pressed, this, [=, this]() {
+        auto path = outputPath->text();
+        // Need to manually handle the tilde in the path
+        if (path.startsWith(QStringLiteral("~/")))
+        {
+            path.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+        }
+
+        QFile file(path);
+        const QFileInfo info(path);
+        if (!file.open(QFile::Text | QFile::WriteOnly | QFile::Truncate))
+        {
+            QMessageBox::warning(this, tr("Output failed"), tr(R"(Output to file "%1" failed with error "%2".)").arg(info.absoluteFilePath(), file.errorString()));
+            return;
+        }
+
+        const qint32 outputRows = output->rowCount();
+        for (qint32 i = 0; i < outputRows; ++i)
+        {
+            file.write(QStringLiteral("%1\n").arg(output->item(i, 0)->text()).toUtf8());
+        }
+
+        QMessageBox::information(this, tr("Output saved"), tr(R"(Output to file "%1" was successful.)").arg(info.absoluteFilePath()));
+    });
+
+    auto *outputPathLayout = new QHBoxLayout();
+    outputPathLayout->addWidget(outputPath);
+    outputPathLayout->addWidget(outputBrowse);
+    outputPathLayout->addWidget(outputSave);
 
     // Terminal environment variable LANGUAGE
     auto *languageLabel = new QLabel();
@@ -316,12 +368,13 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     centralVLayout->addLayout(inputLayout);
     centralVLayout->addLayout(outputLayout);
     centralVLayout->setStretchFactor(outputLayout, 1);
+    centralVLayout->addLayout(outputPathLayout);
 
     centralWidget->setLayout(centralVLayout);
 
     setCentralWidget(centralWidget);
     setMinimumSize(768, 576);
-    resize(768, 576);
+    resize(768, 768);
 }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -342,7 +395,7 @@ void MainWindow::changeEvent(QEvent *event)
     QMainWindow::changeEvent(event);
 }
 
-void MainWindow::process() const
+void MainWindow::process()
 {
     auto initial = input->text().trimmed();
     wordplay->processWord(initial);
@@ -380,6 +433,9 @@ void MainWindow::process() const
     {
         output->setItem(i, 0, new QTableWidgetItem(wordplay->finalResult.at(i)));
     }
+
+    canSave.result = resultCount > 0;
+    outputSave->setEnabled(canSave.value >= 3);
 }
 
 template<typename T>
