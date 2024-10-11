@@ -1,9 +1,9 @@
+#include "common.h"
 #include "mainwindow.h"
 
 #include <QApplication>
 #include <QDir>
 #include <QLocale>
-#include <QStandardPaths>
 
 auto main(qint32 argc, char *argv[]) -> qint32
 {
@@ -14,7 +14,7 @@ auto main(qint32 argc, char *argv[]) -> qint32
     app.setApplicationName(QStringLiteral("WordplayQt"));
     app.setApplicationVersion(QStringLiteral(APP_VERSION));
 
-    const auto wordsPath = QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    const auto wordsPath = CommonFunctions::configPath(QStringLiteral("words"));
     if (QDir().mkpath(wordsPath))
     {
         QFile defaultFile(QStringLiteral("%1/en-US.txt").arg(wordsPath));

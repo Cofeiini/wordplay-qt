@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include "common.h"
+
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -110,7 +112,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(depth, &QSpinBox::valueChanged, this, [=, this](const qint32 value) {
         wordplay->args.depth = value;
-        depthWarning->setVisible(value > 4);
+        depthWarning->setVisible(value > DEFAULT_ANAGRAM_WORDS);
     });
 
     letterFilter = new QLineEdit();
@@ -196,8 +198,8 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *wordListLabel = new QLabel();
     addTranslatedWidget(wordListLabel, QT_TR_NOOP("Wordlist:"));
 
-    const auto configWordsPath = QStringLiteral("%1/words").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
-    const auto localWordsPath = QStringLiteral("%1/words").arg(QCoreApplication::applicationDirPath());
+    const auto configWordsPath = CommonFunctions::configPath(QStringLiteral("words"));
+    const auto localWordsPath = CommonFunctions::applicationPath(QStringLiteral("words"));
 
     const auto nameFilter = QStringLiteral("*.txt");
     constexpr auto sortFlags = QDir::SortFlag::Name | QDir::SortFlag::IgnoreCase;
@@ -206,7 +208,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     wordlistFiles.clear();
     wordlistFiles.reserve(std::max(configFiles.size(), localFiles.size()));
-    wordlistFiles.insert(QStringLiteral("en-US.txt"), QStringLiteral(":/words/en-US.txt"));
+    wordlistFiles.insert(QStringLiteral("en-US.txt"), DEFAULT_WORD_FILE);
     for (const auto &file : configFiles)
     {
         wordlistFiles.insert(file, QStringLiteral("%1/%2").arg(configWordsPath, file));
@@ -245,7 +247,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(outputPath, &QLineEdit::textChanged, this, [this](const QString &text) {
         canSave.output = !text.isEmpty();
-        outputSave->setEnabled(canSave.value >= 3);
+        outputSave->setEnabled(canSave.value >= saveThreshold);
     });
 
     auto *outputBrowse = new QPushButton();
@@ -262,15 +264,8 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     outputSave->setEnabled(false);
 
     connect(outputSave, &QPushButton::pressed, this, [=, this]() {
-        auto path = outputPath->text();
-        // Need to manually handle the tilde in the path
-        if (path.startsWith(QStringLiteral("~/")))
-        {
-            path.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-        }
-
-        QFile file(path);
-        const QFileInfo info(path);
+        const QFileInfo info(CommonFunctions::handleTilde(outputPath->text()));
+        QFile file(info.absoluteFilePath());
         if (!file.open(QFile::Text | QFile::WriteOnly | QFile::Truncate))
         {
             QMessageBox::warning(this, tr("Output failed"), tr(R"(Output to file "%1" failed with error "%2".)").arg(info.absoluteFilePath(), file.errorString()));
@@ -296,16 +291,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedWidget(languageLabel, QT_TR_NOOP("Language:"));
 
     auto *language = new QComboBox();
-    const auto languageList = QStringLiteral(I18N_TRANSLATED_LANGUAGES).split(QStringLiteral(","));
-    translatedLanguages.reserve(languageList.size());
-    for (const auto &translated : languageList)
+    translatedLanguages = QStringLiteral(I18N_TRANSLATED_LANGUAGES).split(QStringLiteral(","));
+    for (const auto &translated : translatedLanguages)
     {
-        translatedLanguages.append(translated);
         language->addItem(QLocale(translated).nativeLanguageName());
     }
     for (const QString &locale : QLocale::system().uiLanguages())
     {
-        const auto index = languageList.indexOf(locale);
+        const auto index = translatedLanguages.indexOf(locale);
         if (index > -1)
         {
             language->setCurrentIndex(static_cast<qint32>(index));
@@ -435,7 +428,7 @@ void MainWindow::process()
     }
 
     canSave.result = resultCount > 0;
-    outputSave->setEnabled(canSave.value >= 3);
+    outputSave->setEnabled(canSave.value >= saveThreshold);
 }
 
 template<typename T>

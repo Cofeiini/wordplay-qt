@@ -39,6 +39,7 @@ private:
         };
         quint8 value = 0; // Remember to initialize this specific member to set up the union
     } canSave;
+    static constexpr quint8 saveThreshold = 0b00000011;
 
     QStringList translatedLanguages;
     QHash<QString, QString> wordlistFiles;

@@ -25,6 +25,7 @@ qt_add_executable(${PROJECT_NAME}
     src/argparser.h
     src/wordplay.h
     src/wordplay.cpp
+    src/common.h
     src/resources.qrc
 )
 

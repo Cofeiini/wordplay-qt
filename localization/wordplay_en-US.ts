@@ -4,7 +4,7 @@
 <context>
     <name>Wordplay</name>
     <message numerus="yes">
-        <location filename="../../src/wordplay.cpp" line="653"/>
+        <location filename="../../src/wordplay.cpp" line="643"/>
         <source>[%1] %2 of %3 words loaded. Longest word was %n letter(s).</source>
         <translation>
             <numerusform>[%1] %2 of %3 words loaded. Longest word was %n letter.</numerusform>

@@ -1,5 +1,7 @@
 #include "wordplay.h"
 
+#include "common.h"
+
 #include <QDir>
 #include <QFileInfo>
 #include <QMutex>
@@ -388,13 +390,7 @@ auto Wordplay::process() -> qint32
 {
     if (!args.output.isEmpty())
     {
-        // Need to manually handle the tilde in the path
-        if (args.output.startsWith(QStringLiteral("~/")))
-        {
-            args.output.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-        }
-
-        const QFileInfo info(args.output);
+        const QFileInfo info(CommonFunctions::handleTilde(args.output));
         outFile.setFileName(info.fileName());
         [[maybe_unused]] const InputDirectory directoryHandle(info.absolutePath());
         if (!outFile.open(QFile::WriteOnly | QFile::Truncate))
@@ -449,7 +445,7 @@ auto Wordplay::process() -> qint32
 
 void Wordplay::processArguments(ArgParser &input)
 {
-    initialWord = input.positionalArguments().value(0);
+    initialWord = input.positionalArguments().value(0, {});
     processWord(initialWord);
     if (initialWord.isEmpty())
     {
@@ -551,14 +547,8 @@ auto Wordplay::readFile() -> QStringList
         qInfo("%s", qUtf8Printable(tr("[%1] Words are being loaded and filtered...").arg(tr("Info"))));
     }
 
-    // Need to manually handle the tilde in the path
-    if (args.file.startsWith(QStringLiteral("~/")))
-    {
-        args.file.replace(0, 1, QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    }
-
     QTextStream inputStream(stdin);
-    const QFileInfo info(args.file);
+    const QFileInfo info(CommonFunctions::handleTilde(args.file));
     QFile inputFile(info.fileName()); // Remember to specify the input file here, so that it doesn't get deleted before reading is done
     if (args.file != QStringLiteral("-"))
     {
