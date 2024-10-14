@@ -4,6 +4,7 @@
 #include "wordplay.h"
 
 #include <QComboBox>
+#include <QJsonObject>
 #include <QLineEdit>
 #include <QMainWindow>
 #include <QPushButton>
@@ -16,10 +17,14 @@ class MainWindow final : public QMainWindow
 public:
     explicit MainWindow(Wordplay &core, QWidget *parent = nullptr);
 
-private:
+protected:
     void changeEvent(QEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
+private:
+    void setupConfig();
     void process();
+
     template<typename T>
     static void assignTranslation(T *widget, const char *text);
     template<typename T>
@@ -29,17 +34,35 @@ private:
     template<typename T>
     void addTranslatedTooltip(T *widget, const char *text);
 
-    union
+    struct
     {
+        bool hasOutput = false;
+        bool hasResults = false;
+        bool hasCandidates = false;
+
+        [[nodiscard]] auto canSave() const -> bool
+        {
+            return hasResults && hasOutput;
+        }
+    } checks;
+
+    struct
+    {
+        QString language;
+        QString wordlist;
         struct
         {
-            quint8 result : 1;
-            quint8 output : 1;
-            quint8 : 6;
-        };
-        quint8 value = 0; // Remember to initialize this specific member to set up the union
-    } canSave;
-    static constexpr quint8 saveThreshold = 0b00000011;
+            qint64 depth = 0;
+            qint64 minimum = 0;
+            qint64 maximum = 0;
+            bool allowDuplicates = false;
+            bool includeInput = true;
+            bool listCandidates = false;
+            bool rephrase = false;
+            bool noGenerate = false;
+            bool sort = true;
+        } options;
+    } config;
 
     QStringList translatedLanguages;
     QHash<QString, QString> wordlistFiles;
@@ -53,7 +76,7 @@ private:
     QPushButton *outputSave = nullptr;
     QTableWidget *output = nullptr;
     QTableWidget *candidates = nullptr;
-    Wordplay *wordplay = nullptr;
+    std::shared_ptr<Wordplay> wordplay = nullptr;
 };
 
 #endif

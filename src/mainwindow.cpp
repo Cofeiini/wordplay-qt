@@ -40,11 +40,16 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle(QStringLiteral("%1 (%2)").arg(QApplication::applicationName(), QApplication::applicationVersion()));
 
-    wordplay = &core;
+    wordplay = std::shared_ptr<Wordplay>(&core);
     wordplay->args.silent = SilenceLevel::ALL;
     wordplay->args.gui = true;
 
-    auto *centralWidget = new QWidget(this);
+    setupConfig();
+
+    output = new QTableWidget(1, 1);
+    candidates = new QTableWidget(1, 1);
+
+    auto *centralWidget = new QWidget();
 
     auto *inputLayout = new QHBoxLayout();
 
@@ -64,7 +69,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     auto *minimum = new QSpinBox();
     minimum->setRange(1, MAX_WORD_LENGTH);
-    minimum->setValue(1);
+    minimum->setValue(static_cast<int>(config.options.minimum));
     auto *minimumLayout = new QHBoxLayout();
     minimumLayout->addWidget(minimum);
     auto *minimumGroup = new QGroupBox();
@@ -75,7 +80,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     auto *maximum = new QSpinBox();
     maximum->setRange(1, MAX_WORD_LENGTH);
-    maximum->setValue(MAX_WORD_LENGTH);
+    maximum->setValue(static_cast<int>(config.options.maximum));
     auto *maximumLayout = new QHBoxLayout();
     maximumLayout->addWidget(maximum);
     auto *maximumGroup = new QGroupBox();
@@ -86,17 +91,19 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(minimum, &QSpinBox::valueChanged, this, [=, this](const qint32 value) {
         wordplay->args.minimum = value;
+        config.options.minimum = value;
         maximum->setMinimum(value);
     });
 
     connect(maximum, &QSpinBox::valueChanged, this, [=, this](const qint32 value) {
         wordplay->args.maximum = value;
+        config.options.maximum = value;
         minimum->setMaximum(value);
     });
 
     auto *depth = new QSpinBox();
     depth->setRange(1, MAX_ANAGRAM_WORDS);
-    depth->setValue(DEFAULT_ANAGRAM_WORDS);
+    depth->setValue(static_cast<int>(config.options.depth));
     auto *depthWarning = new QLabel();
     addTranslatedWidget(depthWarning, QT_TR_NOOP("Big word limit will impact performance while giving poor results"));
     depthWarning->setStyleSheet(QStringLiteral("color: red; font: bold 12px;"));
@@ -112,6 +119,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(depth, &QSpinBox::valueChanged, this, [=, this](const qint32 value) {
         wordplay->args.depth = value;
+        config.options.depth = value;
         depthWarning->setVisible(value > DEFAULT_ANAGRAM_WORDS);
     });
 
@@ -142,7 +150,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(allowDuplicates, QT_TR_NOOP("Useful for adding unusual results, but often produces nonsense"));
     optionsLayout->addWidget(allowDuplicates);
 
-    connect(allowDuplicates, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.allowDuplicates = checked; });
+    connect(allowDuplicates, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.allowDuplicates = checked;
+        config.options.allowDuplicates = checked;
+    });
+    if (config.options.allowDuplicates)
+    {
+        allowDuplicates->toggle();
+    }
 
     // Terminal option i
     auto *includeInput = new QCheckBox();
@@ -150,8 +165,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(includeInput, QT_TR_NOOP("Useful for making a more complete list of results"));
     optionsLayout->addWidget(includeInput);
 
-    connect(includeInput, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.includeInput = checked; });
-    includeInput->toggle();
+    connect(includeInput, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.includeInput = checked;
+        config.options.includeInput = checked;
+    });
+    if (config.options.includeInput)
+    {
+        includeInput->toggle();
+    }
 
     // Terminal option l
     auto *listCandidates = new QCheckBox();
@@ -161,8 +182,13 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(listCandidates, &QCheckBox::toggled, this, [this](const bool checked) {
         wordplay->args.listCandidates = checked;
+        config.options.listCandidates = checked;
         candidates->setVisible(checked);
     });
+    if (config.options.listCandidates)
+    {
+        listCandidates->toggle();
+    }
 
     // Terminal option r
     auto *rephrase = new QCheckBox();
@@ -170,7 +196,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(rephrase, QT_TR_NOOP("Useful for getting many results, but exponentially increases resource usage"));
     optionsLayout->addWidget(rephrase);
 
-    connect(rephrase, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.allowRephrased = checked; });
+    connect(rephrase, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.allowRephrased = checked;
+        config.options.rephrase = checked;
+    });
+    if (config.options.rephrase)
+    {
+        rephrase->toggle();
+    }
 
     // Terminal option x
     auto *noGenerate = new QCheckBox();
@@ -180,8 +213,13 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     connect(noGenerate, &QCheckBox::toggled, this, [this](const bool checked) {
         wordplay->args.recursive = !checked;
+        config.options.noGenerate = checked;
         output->setVisible(!checked);
     });
+    if (config.options.noGenerate)
+    {
+        noGenerate->toggle();
+    }
 
     // Terminal option z
     auto *sort = new QCheckBox();
@@ -189,8 +227,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedTooltip(sort, QT_TR_NOOP("Useful for organizing the results, but increases generation time"));
     optionsLayout->addWidget(sort);
 
-    connect(sort, &QCheckBox::toggled, this, [this](const bool checked) { wordplay->args.sort = checked; });
-    sort->toggle();
+    connect(sort, &QCheckBox::toggled, this, [this](const bool checked) {
+        wordplay->args.sort = checked;
+        config.options.sort = checked;
+    });
+    if (config.options.sort)
+    {
+        sort->toggle();
+    }
 
     optionsLayout->addStretch();
 
@@ -227,13 +271,14 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     wordlist = new QComboBox();
     wordlist->addItems(tempList);
-    wordlist->setCurrentIndex(static_cast<qint32>(tempList.indexOf("en-US.txt")));
 
     connect(wordlist, &QComboBox::currentTextChanged, this, [=, this](const QString &text) {
         const auto file = wordlistFiles.value(text, DEFAULT_WORD_FILE);
         wordplay->args.file = file;
+        config.wordlist = text;
         generate->setEnabled(QFile::exists(file));
     });
+    wordlist->setCurrentIndex(static_cast<qint32>(tempList.indexOf(config.wordlist)));
 
     auto *wordListLayout = new QHBoxLayout();
     wordListLayout->addWidget(wordListLabel);
@@ -246,8 +291,8 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     outputPath->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     connect(outputPath, &QLineEdit::textChanged, this, [this](const QString &text) {
-        canSave.output = !text.isEmpty();
-        outputSave->setEnabled(canSave.value >= saveThreshold);
+        checks.hasOutput = !text.isEmpty();
+        outputSave->setEnabled(checks.canSave());
     });
 
     auto *outputBrowse = new QPushButton();
@@ -307,20 +352,23 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     }
 
     connect(language, &QComboBox::currentIndexChanged, this, [this](const qint32 index) {
-        const auto locale = translatedLanguages.value(index, QStringLiteral("en-US"));
+        const auto locale = translatedLanguages.value(index, config.language);
 
         if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_%1").arg(locale)))
         {
+            config.language = locale;
             return;
         }
 
         if (wordplay->translator.load(QStringLiteral(":/i18n/wordplay_en-US")))
         {
+            config.language = QStringLiteral("en-US");
             return;
         }
 
         QMessageBox::warning(this, tr("Warning"), tr("Failed to load translations for %1").arg(QLocale(locale).nativeLanguageName()), QMessageBox::Ok);
     });
+    language->setCurrentIndex(static_cast<int>(translatedLanguages.indexOf(config.language)));
 
     auto *languageLayout = new QHBoxLayout();
     languageLayout->addWidget(languageLabel);
@@ -333,7 +381,6 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     auto *outputLayout = new QHBoxLayout();
 
-    output = new QTableWidget(1, 1);
     output->horizontalHeader()->setVisible(false);
     output->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     output->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -342,13 +389,12 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
     outputLayout->addWidget(output);
 
-    candidates = new QTableWidget(1, 1);
     candidates->horizontalHeader()->setVisible(false);
     candidates->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     candidates->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     candidates->setEditTriggers(QTableWidget::NoEditTriggers);
     candidates->setAlternatingRowColors(true);
-    candidates->setVisible(false);
+    candidates->setVisible(config.options.listCandidates);
     candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
     outputLayout->addWidget(candidates);
 
@@ -368,24 +414,6 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     setCentralWidget(centralWidget);
     setMinimumSize(768, 576);
     resize(768, 768);
-}
-
-void MainWindow::changeEvent(QEvent *event)
-{
-    if (event->type() == QEvent::LanguageChange)
-    {
-        for (auto iter = translatableWidgets.constBegin(); iter != translatableWidgets.constEnd(); ++iter)
-        {
-            assignTranslation(iter.key(), iter.value());
-        }
-
-        for (auto iter = translatableTooltips.constBegin(); iter != translatableTooltips.constEnd(); ++iter)
-        {
-            assignTooltip(iter.key(), iter.value());
-        }
-    }
-
-    QMainWindow::changeEvent(event);
 }
 
 void MainWindow::process()
@@ -417,6 +445,8 @@ void MainWindow::process()
         candidates->setItem(i, 0, new QTableWidgetItem(wordplay->candidateWords.at(i).first));
     }
 
+    checks.hasCandidates = candidateCount > 0;
+
     output->clearContents();
     const auto resultCount = static_cast<qint32>(wordplay->finalResult.size());
     output->setRowCount(std::max(1, resultCount));
@@ -427,8 +457,83 @@ void MainWindow::process()
         output->setItem(i, 0, new QTableWidgetItem(wordplay->finalResult.at(i)));
     }
 
-    canSave.result = resultCount > 0;
-    outputSave->setEnabled(canSave.value >= saveThreshold);
+    checks.hasResults = resultCount > 0;
+    outputSave->setEnabled(checks.canSave());
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        for (auto iter = translatableWidgets.constBegin(); iter != translatableWidgets.constEnd(); ++iter)
+        {
+            assignTranslation(iter.key(), iter.value());
+        }
+
+        for (auto iter = translatableTooltips.constBegin(); iter != translatableTooltips.constEnd(); ++iter)
+        {
+            assignTooltip(iter.key(), iter.value());
+        }
+
+        if (!checks.hasResults)
+        {
+            output->item(0, 0)->setText(tr("No results..."));
+        }
+
+        if (!checks.hasCandidates)
+        {
+            candidates->item(0, 0)->setText(tr("No candidates..."));
+        }
+    }
+
+    QMainWindow::changeEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    const QJsonObject options {
+        { "allow-multiple", config.options.allowDuplicates },
+        { "depth", config.options.depth },
+        { "include", config.options.includeInput },
+        { "list", config.options.listCandidates },
+        { "maximum", config.options.maximum },
+        { "minimum", config.options.minimum },
+        { "rephrase", config.options.rephrase },
+        { "no-generate", config.options.noGenerate },
+        { "sort", config.options.sort },
+    };
+
+    const QJsonObject json {
+        { "language", config.language },
+        { "wordlist", config.wordlist },
+        { "options", options },
+    };
+
+    const QString error = ConfigFunctions::writeConfig(json);
+    if (!error.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Saving config failed"), tr(R"(Writing config failed with error "%1".)").arg(error));
+    }
+
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::setupConfig()
+{
+    const QJsonObject json = ConfigFunctions::readConfig();
+    config.language = json.value(QStringLiteral("language")).toString(QStringLiteral("en-US"));
+    config.wordlist = json.value(QStringLiteral("wordlist")).toString(QStringLiteral("en-US.txt"));
+
+    const QJsonObject options = json.value(QStringLiteral("options")).toObject();
+    config.options.allowDuplicates = options.value(QStringLiteral("allow-multiple")).toBool(false);
+    config.options.depth = options.value(QStringLiteral("depth")).toInteger(DEFAULT_ANAGRAM_WORDS);
+    config.options.includeInput = options.value(QStringLiteral("include")).toBool(true);
+    config.options.listCandidates = options.value(QStringLiteral("list")).toBool(false);
+    config.options.maximum = options.value(QStringLiteral("maximum")).toInteger(MAX_WORD_LENGTH);
+    config.options.minimum = options.value(QStringLiteral("minimum")).toInteger(1);
+    config.options.rephrase = options.value(QStringLiteral("rephrase")).toBool(false);
+    config.options.noGenerate = options.value(QStringLiteral("no-generate")).toBool(false);
+    config.options.sort = options.value(QStringLiteral("sort")).toBool(true);
 }
 
 template<typename T>
