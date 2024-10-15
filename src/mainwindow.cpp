@@ -40,7 +40,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle(QStringLiteral("%1 (%2)").arg(QApplication::applicationName(), QApplication::applicationVersion()));
 
-    wordplay = std::shared_ptr<Wordplay>(&core);
+    wordplay = &core;
     wordplay->args.silent = SilenceLevel::ALL;
     wordplay->args.gui = true;
 

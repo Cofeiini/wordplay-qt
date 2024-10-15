@@ -76,7 +76,7 @@ private:
     QPushButton *outputSave = nullptr;
     QTableWidget *output = nullptr;
     QTableWidget *candidates = nullptr;
-    std::shared_ptr<Wordplay> wordplay = nullptr;
+    Wordplay *wordplay = nullptr;
 };
 
 #endif
