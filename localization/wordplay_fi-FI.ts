@@ -301,42 +301,52 @@
         <translation>Sanalista:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="316"/>
+        <location filename="../src/mainwindow.cpp" line="300"/>
+        <source>Line numbers</source>
+        <translation>Rivinumerot</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="301"/>
+        <source>Save line numbers along with the results</source>
+        <translation>Tallenna rivinumerot tulosten kanssa</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="325"/>
         <source>Output to file &quot;%1&quot; failed with error &quot;%2&quot;.</source>
         <translation>Tulostus tiedostoon &quot;%1&quot; epäonnistui virheellä &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="326"/>
+        <location filename="../src/mainwindow.cpp" line="347"/>
         <source>Output to file &quot;%1&quot; was successful.</source>
         <translation>Tulostus tiedostoon &quot;%1&quot; onnistui.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="336"/>
+        <location filename="../src/mainwindow.cpp" line="358"/>
         <source>Language:</source>
         <translation>Kieli:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="391"/>
         <source>Warning</source>
         <translation>Varoitus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="391"/>
         <source>Failed to load translations for %1</source>
         <translation>Käännösten lataaminen kielelle %1 epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="379"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <source>Options</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="515"/>
+        <location filename="../src/mainwindow.cpp" line="601"/>
         <source>Saving config failed</source>
         <translation>Asetusten tallennus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="515"/>
+        <location filename="../src/mainwindow.cpp" line="601"/>
         <source>Writing config failed with error &quot;%1&quot;.</source>
         <translation>Asetusten kirjoittaminen epäonnistui virheellä &quot;%1&quot;.</translation>
     </message>
@@ -346,41 +356,53 @@
         <translation>Tiedosto, jota käytetään tulosten kirjoittamiseen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="307"/>
+        <location filename="../src/mainwindow.cpp" line="316"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="326"/>
+        <location filename="../src/mainwindow.cpp" line="347"/>
         <source>Output saved</source>
         <translation>Tuloste tallennettu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="398"/>
-        <location filename="../src/mainwindow.cpp" line="440"/>
-        <location filename="../src/mainwindow.cpp" line="485"/>
+        <location filename="../src/mainwindow.cpp" line="406"/>
+        <source>Search results</source>
+        <extracomment>The act of searching from the results</extracomment>
+        <translation>Etsi tuloksista</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="427"/>
+        <source>Search candidates</source>
+        <extracomment>The act of searching from the candidates</extracomment>
+        <translation>Etsi hakusanoista</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="466"/>
+        <location filename="../src/mainwindow.cpp" line="509"/>
+        <location filename="../src/mainwindow.cpp" line="571"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="299"/>
+        <location filename="../src/mainwindow.cpp" line="308"/>
         <source>Browse</source>
         <translation>Selaa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="303"/>
+        <location filename="../src/mainwindow.cpp" line="312"/>
         <source>Select output file</source>
         <translation>Valitse tulostustiedosto</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="316"/>
+        <location filename="../src/mainwindow.cpp" line="325"/>
         <source>Output failed</source>
         <translation>Tuloste epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="389"/>
-        <location filename="../src/mainwindow.cpp" line="453"/>
-        <location filename="../src/mainwindow.cpp" line="480"/>
+        <location filename="../src/mainwindow.cpp" line="457"/>
+        <location filename="../src/mainwindow.cpp" line="531"/>
+        <location filename="../src/mainwindow.cpp" line="566"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>

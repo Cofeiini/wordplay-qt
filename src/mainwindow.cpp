@@ -286,30 +286,39 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     optionsLayout->addLayout(wordListLayout);
 
     // Terminal option o
-    auto *outputPath = new QLineEdit();
-    addTranslatedWidget(outputPath, QT_TR_NOOP("File to use for writing results"));
-    outputPath->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    auto *savePath = new QLineEdit();
+    addTranslatedWidget(savePath, QT_TR_NOOP("File to use for writing results"));
+    savePath->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    connect(outputPath, &QLineEdit::textChanged, this, [this](const QString &text) {
+    connect(savePath, &QLineEdit::textChanged, this, [this](const QString &text) {
         checks.hasOutput = !text.isEmpty();
-        outputSave->setEnabled(checks.canSave());
+        save->setEnabled(checks.canSave());
     });
 
-    auto *outputBrowse = new QPushButton();
-    addTranslatedWidget(outputBrowse, QT_TR_NOOP("Browse"));
-    outputBrowse->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    auto *saveLineNumbers = new QPushButton();
+    saveLineNumbers->setCheckable(true);
+    addTranslatedWidget(saveLineNumbers, QT_TR_NOOP("Line numbers"));
+    addTranslatedTooltip(saveLineNumbers, QT_TR_NOOP("Save line numbers along with the results"));
 
-    connect(outputBrowse, &QPushButton::pressed, this, [=, this]() {
-        outputPath->setText(QFileDialog::getSaveFileName(this, tr("Select output file")));
+    connect(saveLineNumbers, &QCheckBox::toggled, this, [this](const bool checked) {
+        checks.saveLines = checked;
     });
 
-    outputSave = new QPushButton();
-    addTranslatedWidget(outputSave, QT_TR_NOOP("Save"));
-    outputSave->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-    outputSave->setEnabled(false);
+    auto *saveBrowse = new QPushButton();
+    addTranslatedWidget(saveBrowse, QT_TR_NOOP("Browse"));
+    saveBrowse->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-    connect(outputSave, &QPushButton::pressed, this, [=, this]() {
-        const QFileInfo info(CommonFunctions::handleTilde(outputPath->text()));
+    connect(saveBrowse, &QPushButton::pressed, this, [=, this]() {
+        savePath->setText(QFileDialog::getSaveFileName(this, tr("Select output file")));
+    });
+
+    save = new QPushButton();
+    addTranslatedWidget(save, QT_TR_NOOP("Save"));
+    save->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    save->setEnabled(false);
+
+    connect(save, &QPushButton::pressed, this, [=, this]() {
+        const QFileInfo info(CommonFunctions::handleTilde(savePath->text()));
         QFile file(info.absoluteFilePath());
         if (!file.open(QFile::Text | QFile::WriteOnly | QFile::Truncate))
         {
@@ -317,9 +326,21 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
             return;
         }
 
+        quint32 lineNumbers = 1;
         const qint32 outputRows = output->rowCount();
         for (qint32 i = 0; i < outputRows; ++i)
         {
+            if (output->isRowHidden(i))
+            {
+                continue;
+            }
+
+            if (checks.saveLines)
+            {
+                file.write(QStringLiteral("%1. %2\n").arg(lineNumbers++, 8, 10, QChar(' ')).arg(output->item(i, 0)->text()).toUtf8());
+                continue;
+            }
+
             file.write(QStringLiteral("%1\n").arg(output->item(i, 0)->text()).toUtf8());
         }
 
@@ -327,9 +348,10 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     });
 
     auto *outputPathLayout = new QHBoxLayout();
-    outputPathLayout->addWidget(outputPath);
-    outputPathLayout->addWidget(outputBrowse);
-    outputPathLayout->addWidget(outputSave);
+    outputPathLayout->addWidget(savePath);
+    outputPathLayout->addWidget(saveLineNumbers);
+    outputPathLayout->addWidget(saveBrowse);
+    outputPathLayout->addWidget(save);
 
     // Terminal environment variable LANGUAGE
     auto *languageLabel = new QLabel();
@@ -379,6 +401,52 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     addTranslatedWidget(optionsGroup, QT_TR_NOOP("Options"));
     optionsGroup->setLayout(optionsLayout);
 
+    outputSearch = new QLineEdit();
+    //: The act of searching from the results
+    addTranslatedWidget(outputSearch, QT_TR_NOOP("Search results"));
+    outputSearch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    connect(outputSearch, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (!checks.hasOutput)
+        {
+            return;
+        }
+
+        const qint32 outputRows = output->rowCount();
+        for (qint32 i = 0; i < outputRows; ++i)
+        {
+            output->showRow(i);
+            if (!output->item(i, 0)->text().contains(text, Qt::CaseInsensitive))
+            {
+                output->hideRow(i);
+            }
+        }
+    });
+
+    candidateSearch = new QLineEdit();
+    //: The act of searching from the candidates
+    addTranslatedWidget(candidateSearch, QT_TR_NOOP("Search candidates"));
+    candidateSearch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    connect(candidateSearch, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (!checks.hasCandidates)
+        {
+            return;
+        }
+
+        const qint32 outputRows = candidates->rowCount();
+        for (qint32 i = 0; i < outputRows; ++i)
+        {
+            candidates->showRow(i);
+            if (!candidates->item(i, 0)->text().contains(text, Qt::CaseInsensitive))
+            {
+                candidates->hideRow(i);
+            }
+        }
+    });
+
+    auto *filterLayout = new QHBoxLayout();
+    filterLayout->addWidget(outputSearch);
+    filterLayout->addWidget(candidateSearch);
+
     auto *outputLayout = new QHBoxLayout();
 
     output->horizontalHeader()->setVisible(false);
@@ -405,6 +473,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     auto *centralVLayout = new QVBoxLayout();
     centralVLayout->addLayout(centralHLayout);
     centralVLayout->addLayout(inputLayout);
+    centralVLayout->addLayout(filterLayout);
     centralVLayout->addLayout(outputLayout);
     centralVLayout->setStretchFactor(outputLayout, 1);
     centralVLayout->addLayout(outputPathLayout);
@@ -438,11 +507,20 @@ void MainWindow::process()
     const auto candidateCount = static_cast<qint32>(wordplay->candidateWords.size());
     candidates->setRowCount(std::max(1, candidateCount));
     candidates->setItem(0, 0, new QTableWidgetItem(tr("No candidates...")));
+    candidates->showRow(0);
+
     std::ranges::sort(wordplay->candidateWords, [](const StrPair &left, const StrPair &right) { return (left.first.size() != right.first.size()) ? (left.first.size() < right.first.size()) : (left.first < right.first); });
 
+    const auto &searchedCandidate = candidateSearch->text();
     for (qint32 i = 0; i < candidateCount; ++i)
     {
-        candidates->setItem(i, 0, new QTableWidgetItem(wordplay->candidateWords.at(i).first));
+        const auto &line = wordplay->candidateWords.at(i).first;
+        candidates->setItem(i, 0, new QTableWidgetItem(line));
+        candidates->showRow(i);
+        if (!line.contains(searchedCandidate, Qt::CaseInsensitive))
+        {
+            candidates->hideRow(i);
+        }
     }
 
     checks.hasCandidates = candidateCount > 0;
@@ -451,14 +529,22 @@ void MainWindow::process()
     const auto resultCount = static_cast<qint32>(wordplay->finalResult.size());
     output->setRowCount(std::max(1, resultCount));
     output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
+    output->showRow(0);
 
+    const auto &searchedResult = outputSearch->text();
     for (qint32 i = 0; i < resultCount; ++i)
     {
-        output->setItem(i, 0, new QTableWidgetItem(wordplay->finalResult.at(i)));
+        const auto &line = wordplay->finalResult.at(i);
+        output->setItem(i, 0, new QTableWidgetItem(line));
+        output->showRow(i);
+        if (!line.contains(searchedResult, Qt::CaseInsensitive))
+        {
+            output->hideRow(i);
+        }
     }
 
     checks.hasResults = resultCount > 0;
-    outputSave->setEnabled(checks.canSave());
+    save->setEnabled(checks.canSave());
 }
 
 void MainWindow::changeEvent(QEvent *event)

@@ -39,6 +39,7 @@ private:
         bool hasOutput = false;
         bool hasResults = false;
         bool hasCandidates = false;
+        bool saveLines = false;
 
         [[nodiscard]] auto canSave() const -> bool
         {
@@ -72,8 +73,10 @@ private:
     QLineEdit *input = nullptr;
     QLineEdit *letterFilter = nullptr;
     QLineEdit *wordFilter = nullptr;
+    QLineEdit *outputSearch = nullptr;
+    QLineEdit *candidateSearch = nullptr;
     QComboBox *wordlist = nullptr;
-    QPushButton *outputSave = nullptr;
+    QPushButton *save = nullptr;
     QTableWidget *output = nullptr;
     QTableWidget *candidates = nullptr;
     Wordplay *wordplay = nullptr;
