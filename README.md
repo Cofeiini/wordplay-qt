@@ -37,7 +37,7 @@ Basic command-line usage: `wordplay-qt [options] input_word`
 | `-o`, `--output <file>`              | \<file\> to use for writing results (can be used with `--silent` and `--sort` options).      |
 | `-p`, `--print`                      | Print results immediately (ignores `--sort` option).                                         |
 | `-r`, `--rephrase`                   | Allow results to contain the same words in different order.                                  |
-| `-s`, `--silent <level>`             | Silence \<level\> (1 = no info messages, 2 = no line numbers, 3 = no stats, 4 = no results). |
+| `-s`, `--silent <level>`             | Silence \<level\> (1 = no info messages, 2 = no stats, 3 = no line numbers, 4 = no results). |
 | `-w`, `--word <word>`                | \<word\> to include in anagrams (assumes i option).                                          |
 | `-x`, `--no-generate`                | Do not generate anagrams (useful with `--list` option).                                      |
 | `-z`, `--sort`                       | Sort the final results.                                                                      |

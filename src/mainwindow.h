@@ -36,14 +36,14 @@ private:
 
     struct
     {
+        bool hasSave = false;
         bool hasOutput = false;
-        bool hasResults = false;
         bool hasCandidates = false;
         bool saveLines = false;
 
         [[nodiscard]] auto canSave() const -> bool
         {
-            return hasResults && hasOutput;
+            return hasOutput && hasSave;
         }
     } checks;
 

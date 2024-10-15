@@ -530,7 +530,7 @@ void Wordplay::processWord(QString &word) const
     const auto size = word.size();
     const auto initial = word;
 
-    word.removeIf([](const QChar character) { return !character.isPrint(); });
+    word.removeIf([](const QChar character) { return !character.isPrint() || character.isSpace(); });
 
     if (size != word.size() && !args.gui)
     {

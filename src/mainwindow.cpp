@@ -291,7 +291,7 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     savePath->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     connect(savePath, &QLineEdit::textChanged, this, [this](const QString &text) {
-        checks.hasOutput = !text.isEmpty();
+        checks.hasSave = !text.isEmpty();
         save->setEnabled(checks.canSave());
     });
 
@@ -405,12 +405,15 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     //: The act of searching from the results
     addTranslatedWidget(outputSearch, QT_TR_NOOP("Search results"));
     outputSearch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(outputSearch, &QLineEdit::textChanged, this, [this](const QString &text) {
+    connect(outputSearch, &QLineEdit::editingFinished, this, [this]() {
         if (!checks.hasOutput)
         {
             return;
         }
 
+        [[maybe_unused]] const OverrideCursor overrideCursor(Qt::WaitCursor);
+
+        const auto &text = outputSearch->text();
         const qint32 outputRows = output->rowCount();
         for (qint32 i = 0; i < outputRows; ++i)
         {
@@ -426,12 +429,15 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
     //: The act of searching from the candidates
     addTranslatedWidget(candidateSearch, QT_TR_NOOP("Search candidates"));
     candidateSearch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(candidateSearch, &QLineEdit::textChanged, this, [this](const QString &text) {
+    connect(candidateSearch, &QLineEdit::editingFinished, this, [this]() {
         if (!checks.hasCandidates)
         {
             return;
         }
 
+        [[maybe_unused]] const OverrideCursor overrideCursor(Qt::WaitCursor);
+
+        const auto &text = candidateSearch->text();
         const qint32 outputRows = candidates->rowCount();
         for (qint32 i = 0; i < outputRows; ++i)
         {
@@ -493,7 +499,7 @@ void MainWindow::process()
     auto letters = letterFilter->text().trimmed();
     wordplay->processWord(letters);
 
-    auto word = wordFilter->text();
+    auto word = wordFilter->text().trimmed();
     wordplay->processWord(word);
 
     [[maybe_unused]] const OverrideCursor overrideCursor(Qt::WaitCursor);
@@ -503,6 +509,7 @@ void MainWindow::process()
     wordplay->initialWord = initial;
     wordplay->process();
 
+    candidates->hide();
     candidates->clearContents();
     const auto candidateCount = static_cast<qint32>(wordplay->candidateWords.size());
     candidates->setRowCount(std::max(1, candidateCount));
@@ -522,17 +529,19 @@ void MainWindow::process()
             candidates->hideRow(i);
         }
     }
+    candidates->show();
 
     checks.hasCandidates = candidateCount > 0;
 
+    output->hide();
     output->clearContents();
-    const auto resultCount = static_cast<qint32>(wordplay->finalResult.size());
-    output->setRowCount(std::max(1, resultCount));
+    const auto outputCount = static_cast<qint32>(wordplay->finalResult.size());
+    output->setRowCount(std::max(1, outputCount));
     output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
     output->showRow(0);
 
     const auto &searchedResult = outputSearch->text();
-    for (qint32 i = 0; i < resultCount; ++i)
+    for (qint32 i = 0; i < outputCount; ++i)
     {
         const auto &line = wordplay->finalResult.at(i);
         output->setItem(i, 0, new QTableWidgetItem(line));
@@ -542,8 +551,9 @@ void MainWindow::process()
             output->hideRow(i);
         }
     }
+    output->show();
 
-    checks.hasResults = resultCount > 0;
+    checks.hasOutput = outputCount > 0;
     save->setEnabled(checks.canSave());
 }
 
@@ -561,7 +571,7 @@ void MainWindow::changeEvent(QEvent *event)
             assignTooltip(iter.key(), iter.value());
         }
 
-        if (!checks.hasResults)
+        if (!checks.hasOutput)
         {
             output->item(0, 0)->setText(tr("No results..."));
         }

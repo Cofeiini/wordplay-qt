@@ -341,12 +341,12 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="601"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>Saving config failed</source>
         <translation>Asetusten tallennus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="601"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>Writing config failed with error &quot;%1&quot;.</source>
         <translation>Asetusten kirjoittaminen epäonnistui virheellä &quot;%1&quot;.</translation>
     </message>
@@ -372,15 +372,15 @@
         <translation>Etsi tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="427"/>
+        <location filename="../src/mainwindow.cpp" line="430"/>
         <source>Search candidates</source>
         <extracomment>The act of searching from the candidates</extracomment>
         <translation>Etsi hakusanoista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="466"/>
-        <location filename="../src/mainwindow.cpp" line="509"/>
-        <location filename="../src/mainwindow.cpp" line="571"/>
+        <location filename="../src/mainwindow.cpp" line="472"/>
+        <location filename="../src/mainwindow.cpp" line="516"/>
+        <location filename="../src/mainwindow.cpp" line="581"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
@@ -400,9 +400,9 @@
         <translation>Tuloste epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="457"/>
-        <location filename="../src/mainwindow.cpp" line="531"/>
-        <location filename="../src/mainwindow.cpp" line="566"/>
+        <location filename="../src/mainwindow.cpp" line="463"/>
+        <location filename="../src/mainwindow.cpp" line="540"/>
+        <location filename="../src/mainwindow.cpp" line="576"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>
