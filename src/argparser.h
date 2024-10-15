@@ -14,8 +14,8 @@ namespace SilenceLevel {
     enum : quint8 {
         NONE,
         INFO,
-        NUMBERS,
         STATS,
+        NUMBERS,
         RESULTS,
         ALL,
     };
@@ -30,8 +30,8 @@ public:
     {
         const QHash<qint32, QString> silenceMap {
             { SilenceLevel::INFO, tr("no info messages") },
-            { SilenceLevel::NUMBERS, tr("no line numbers") },
             { SilenceLevel::STATS, tr("no stats") },
+            { SilenceLevel::NUMBERS, tr("no line numbers") },
             { SilenceLevel::RESULTS, tr("no results") },
         };
         QStringList silenceList;

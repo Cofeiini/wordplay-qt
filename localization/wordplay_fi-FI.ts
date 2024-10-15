@@ -9,7 +9,7 @@
         <translation>ei tiedotusviestejä</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="33"/>
+        <location filename="../src/argparser.h" line="34"/>
         <source>no line numbers</source>
         <translation>ei rivinumeroita</translation>
     </message>
@@ -19,7 +19,7 @@
         <translation>ei tuloksia</translation>
     </message>
     <message>
-        <location filename="../src/argparser.h" line="34"/>
+        <location filename="../src/argparser.h" line="33"/>
         <source>no stats</source>
         <translation>ei tilastoja</translation>
     </message>
