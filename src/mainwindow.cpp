@@ -11,7 +11,6 @@
 #include <QMessageBox>
 #include <QSizePolicy>
 #include <QSpinBox>
-#include <QStandardPaths>
 #include <QVBoxLayout>
 
 #include <typeindex>
@@ -540,13 +539,13 @@ void MainWindow::process()
     output->setItem(0, 0, new QTableWidgetItem(tr("No results...")));
     output->showRow(0);
 
-    const auto &searchedResult = outputSearch->text();
+    const auto &searchedOutput = outputSearch->text();
     for (qint32 i = 0; i < outputCount; ++i)
     {
         const auto &line = wordplay->finalResult.at(i);
         output->setItem(i, 0, new QTableWidgetItem(line));
         output->showRow(i);
-        if (!line.contains(searchedResult, Qt::CaseInsensitive))
+        if (!line.contains(searchedOutput, Qt::CaseInsensitive))
         {
             output->hideRow(i);
         }

@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDir>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -48,6 +49,11 @@ namespace ConfigFunctions {
 
 [[nodiscard]] inline auto writeConfig(const QJsonObject &json) -> QString
 {
+    if (!QDir().mkpath(CommonFunctions::configPath()))
+    {
+        return QApplication::translate("Config", "Failed to prepare the config directory");
+    }
+
     QFile file(CommonFunctions::configPath(QStringLiteral("config.json")));
     if (!file.open(QFile::Text | QFile::WriteOnly | QFile::Truncate))
     {
