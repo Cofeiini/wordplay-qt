@@ -331,27 +331,27 @@
         <translation>Kieli:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="390"/>
+        <location filename="../src/mainwindow.cpp" line="391"/>
         <source>Warning</source>
         <translation>Varoitus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="390"/>
+        <location filename="../src/mainwindow.cpp" line="391"/>
         <source>Failed to load translations for %1</source>
         <translation>Käännösten lataaminen kielelle %1 epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="400"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <source>Options</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="610"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>Saving config failed</source>
         <translation>Asetusten tallennus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="610"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>Writing config failed with error &quot;%1&quot;.</source>
         <translation>Asetusten kirjoittaminen epäonnistui virheellä &quot;%1&quot;.</translation>
     </message>
@@ -371,21 +371,21 @@
         <translation>Tuloste tallennettu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="405"/>
+        <location filename="../src/mainwindow.cpp" line="406"/>
         <source>Search results</source>
         <extracomment>The act of searching from the results</extracomment>
         <translation>Etsi tuloksista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="429"/>
+        <location filename="../src/mainwindow.cpp" line="430"/>
         <source>Search candidates</source>
         <extracomment>The act of searching from the candidates</extracomment>
         <translation>Etsi hakusanoista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="471"/>
-        <location filename="../src/mainwindow.cpp" line="515"/>
-        <location filename="../src/mainwindow.cpp" line="580"/>
+        <location filename="../src/mainwindow.cpp" line="472"/>
+        <location filename="../src/mainwindow.cpp" line="516"/>
+        <location filename="../src/mainwindow.cpp" line="581"/>
         <source>No candidates...</source>
         <translation>Ei hakusanoja...</translation>
     </message>
@@ -405,9 +405,9 @@
         <translation>Tuloste epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="462"/>
-        <location filename="../src/mainwindow.cpp" line="539"/>
-        <location filename="../src/mainwindow.cpp" line="575"/>
+        <location filename="../src/mainwindow.cpp" line="463"/>
+        <location filename="../src/mainwindow.cpp" line="540"/>
+        <location filename="../src/mainwindow.cpp" line="576"/>
         <source>No results...</source>
         <translation>Ei tuloksia...</translation>
     </message>
@@ -415,230 +415,230 @@
 <context>
     <name>Wordplay</name>
     <message>
-        <location filename="../src/wordplay.cpp" line="71"/>
+        <location filename="../src/wordplay.cpp" line="73"/>
         <source>[%1] Specified word &quot;%2&quot; cannot be extracted from initial string &quot;%3&quot;.</source>
         <translation>[%1] Määritelty sana &quot;%2&quot; ei voitu poimia alustavasta merkkijonosta &quot;%3&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="71"/>
-        <location filename="../src/wordplay.cpp" line="567"/>
+        <location filename="../src/wordplay.cpp" line="73"/>
+        <location filename="../src/wordplay.cpp" line="571"/>
         <source>Error</source>
         <translation>Virhe</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="83"/>
-        <location filename="../src/wordplay.cpp" line="133"/>
-        <location filename="../src/wordplay.cpp" line="434"/>
+        <location filename="../src/wordplay.cpp" line="85"/>
+        <location filename="../src/wordplay.cpp" line="135"/>
+        <location filename="../src/wordplay.cpp" line="438"/>
         <source>Anagrams found:</source>
         <translation>Löydetyt anagrammit:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="311"/>
+        <location filename="../src/wordplay.cpp" line="315"/>
         <source>List of candidate words:</source>
         <translation>Lista hakusanoista:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="354"/>
+        <location filename="../src/wordplay.cpp" line="358"/>
         <source>Include input word in results:</source>
         <translatorcomment>This should not have more characters than the original line due to the stats printing</translatorcomment>
         <translation>Sisällytä syöte tuloksissa:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="354"/>
-        <location filename="../src/wordplay.cpp" line="355"/>
-        <location filename="../src/wordplay.cpp" line="356"/>
-        <location filename="../src/wordplay.cpp" line="357"/>
         <location filename="../src/wordplay.cpp" line="358"/>
         <location filename="../src/wordplay.cpp" line="359"/>
         <location filename="../src/wordplay.cpp" line="360"/>
+        <location filename="../src/wordplay.cpp" line="361"/>
+        <location filename="../src/wordplay.cpp" line="362"/>
+        <location filename="../src/wordplay.cpp" line="363"/>
+        <location filename="../src/wordplay.cpp" line="364"/>
         <source>yes</source>
         <translation>kyllä</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="354"/>
-        <location filename="../src/wordplay.cpp" line="355"/>
-        <location filename="../src/wordplay.cpp" line="356"/>
-        <location filename="../src/wordplay.cpp" line="357"/>
         <location filename="../src/wordplay.cpp" line="358"/>
         <location filename="../src/wordplay.cpp" line="359"/>
         <location filename="../src/wordplay.cpp" line="360"/>
+        <location filename="../src/wordplay.cpp" line="361"/>
+        <location filename="../src/wordplay.cpp" line="362"/>
+        <location filename="../src/wordplay.cpp" line="363"/>
+        <location filename="../src/wordplay.cpp" line="364"/>
         <source>no</source>
         <translation>ei</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="355"/>
+        <location filename="../src/wordplay.cpp" line="359"/>
         <source>Candidate word list:</source>
         <translation>Listaa hakusanat:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="356"/>
+        <location filename="../src/wordplay.cpp" line="360"/>
         <source>Anagram generation:</source>
         <translation>Anagrammien generointi:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="357"/>
+        <location filename="../src/wordplay.cpp" line="361"/>
         <source>Allow duplicate words:</source>
         <translation>Salli toistuvat sanat:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="358"/>
+        <location filename="../src/wordplay.cpp" line="362"/>
         <source>Sort the results:</source>
         <translation>Lajittele lopputulokset:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="359"/>
+        <location filename="../src/wordplay.cpp" line="363"/>
         <source>Rephrased results:</source>
         <translation>Uudelleen muotoilu:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="360"/>
+        <location filename="../src/wordplay.cpp" line="364"/>
         <source>Print immediately:</source>
         <translation>Tulosta heti:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="363"/>
+        <location filename="../src/wordplay.cpp" line="367"/>
         <source>Silence level:</source>
         <translation>Mykistystaso:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="364"/>
+        <location filename="../src/wordplay.cpp" line="368"/>
         <source>Max anagram depth:</source>
         <translation>Maksimi anagrammin syvyys:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="365"/>
+        <location filename="../src/wordplay.cpp" line="369"/>
         <source>Maximum word length:</source>
         <translation>Maksimi sanan pituus:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="366"/>
+        <location filename="../src/wordplay.cpp" line="370"/>
         <source>Minimum word length:</source>
         <translation>Minimi sanan pituus:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="371"/>
+        <location filename="../src/wordplay.cpp" line="375"/>
         <source>Included characters:</source>
         <translation>Sisällytetyt merkit:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="375"/>
+        <location filename="../src/wordplay.cpp" line="379"/>
         <source>Included word:</source>
         <translation>Sisällytetty sana:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="379"/>
+        <location filename="../src/wordplay.cpp" line="383"/>
         <source>Word list file:</source>
         <translation>Sanaluettelotiedosto:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="383"/>
+        <location filename="../src/wordplay.cpp" line="387"/>
         <source>Output file:</source>
         <translation>Tulostiedosto:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="385"/>
+        <location filename="../src/wordplay.cpp" line="389"/>
         <source>String to anagram:</source>
         <translatorcomment>This should have minimal amount of characters due to the stats printing</translatorcomment>
         <translation>Käsiteltävä merkkijono:</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="398"/>
+        <location filename="../src/wordplay.cpp" line="402"/>
         <source>[%1] Failed to open &quot;%2&quot; for writing.</source>
         <translation>[%1] Tiedoston &quot;%2&quot; avaaminen kirjoittamista varten epäonnistui.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="398"/>
-        <location filename="../src/wordplay.cpp" line="474"/>
-        <location filename="../src/wordplay.cpp" line="480"/>
-        <location filename="../src/wordplay.cpp" line="486"/>
-        <location filename="../src/wordplay.cpp" line="492"/>
+        <location filename="../src/wordplay.cpp" line="402"/>
+        <location filename="../src/wordplay.cpp" line="478"/>
+        <location filename="../src/wordplay.cpp" line="484"/>
+        <location filename="../src/wordplay.cpp" line="490"/>
         <location filename="../src/wordplay.cpp" line="496"/>
-        <location filename="../src/wordplay.cpp" line="502"/>
-        <location filename="../src/wordplay.cpp" line="508"/>
-        <location filename="../src/wordplay.cpp" line="514"/>
-        <location filename="../src/wordplay.cpp" line="538"/>
+        <location filename="../src/wordplay.cpp" line="500"/>
+        <location filename="../src/wordplay.cpp" line="506"/>
+        <location filename="../src/wordplay.cpp" line="512"/>
+        <location filename="../src/wordplay.cpp" line="518"/>
+        <location filename="../src/wordplay.cpp" line="542"/>
         <source>Warning</source>
         <translation>Varoitus</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="418"/>
+        <location filename="../src/wordplay.cpp" line="422"/>
         <source>[%1] No anagrams for &quot;%2&quot; were found.</source>
         <translation>[%1] Sanalle &quot;%2&quot; ei löytynyt anagrammeja.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="418"/>
-        <location filename="../src/wordplay.cpp" line="547"/>
-        <location filename="../src/wordplay.cpp" line="574"/>
-        <location filename="../src/wordplay.cpp" line="639"/>
+        <location filename="../src/wordplay.cpp" line="422"/>
+        <location filename="../src/wordplay.cpp" line="551"/>
+        <location filename="../src/wordplay.cpp" line="578"/>
         <location filename="../src/wordplay.cpp" line="643"/>
-        <location filename="../src/wordplay.cpp" line="646"/>
+        <location filename="../src/wordplay.cpp" line="647"/>
         <location filename="../src/wordplay.cpp" line="650"/>
         <location filename="../src/wordplay.cpp" line="654"/>
+        <location filename="../src/wordplay.cpp" line="658"/>
         <source>Info</source>
         <translation>Tiedotus</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="474"/>
+        <location filename="../src/wordplay.cpp" line="478"/>
         <source>[%1] Silence level must be at least %2. Using %2 as fallback.</source>
         <translation>[%1] Mykistystason tulee olla vähintään %2. Laitetaan %2 kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="480"/>
+        <location filename="../src/wordplay.cpp" line="484"/>
         <source>[%1] Silence level must be at most %2. Using %2 as fallback.</source>
         <translation>[%1] Mykistystason tulee olla korkeintaan %2. Laitetaan %2 kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="486"/>
+        <location filename="../src/wordplay.cpp" line="490"/>
         <source>[%1] Minimum word length must be at least 1. Using 1 as fallback.</source>
         <translation>[%1] Sanan minimipituus tulee olla vähintään 1. Laitetaan 1 kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="492"/>
+        <location filename="../src/wordplay.cpp" line="496"/>
         <source>[%1] Maximum word length must be at least 1. Using 1 as fallback.</source>
         <translation>[%1] Sanan maksimipituus tulee olla vähintään 1. Laitetaan 1 kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="496"/>
+        <location filename="../src/wordplay.cpp" line="500"/>
         <source>[%1] Exceeding the recommended maximum word length will impact performance.</source>
         <translation>[%1] Suositellun sanan maksimi pituuden ylittäminen vaikuttaa suorituskykyyn.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="502"/>
+        <location filename="../src/wordplay.cpp" line="506"/>
         <source>[%1] Minimum word length must be less than or equal to maximum word length. Using maximum word length as fallback.</source>
         <translation>[%1] Sanan minimipituus tulee olla pienempi tai yhtä suuri kuin maksimipituus. Laitetaan maksimipituus kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="508"/>
+        <location filename="../src/wordplay.cpp" line="512"/>
         <source>[%1] Maximum word length must be more than or equal to minimum word length. Using minimum word length as fallback.</source>
         <translation>[%1] Sanan maksimipituus tulee olla suurempi tai yhtä suuri kuin minimipituus. Laitetaan minimipituus kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="514"/>
+        <location filename="../src/wordplay.cpp" line="518"/>
         <source>[%1] The amount of words must be at least 1. Using 1 as fallback.</source>
         <translation>[%1] Sanamäärän tulee olla vähintään 1. Laitetaan 1 kaiken varalta.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="538"/>
+        <location filename="../src/wordplay.cpp" line="542"/>
         <source>[%1] Characters that are not part of the alphabets have been removed from &quot;%2&quot;.</source>
         <translation>[%1] Merkit, jotka eivät kuulu aakkosiin poistettiin sanasta &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="547"/>
+        <location filename="../src/wordplay.cpp" line="551"/>
         <source>[%1] Words are being loaded and filtered...</source>
         <translation>[%1] Sanoja ladataan ja suodatetaan...</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="567"/>
+        <location filename="../src/wordplay.cpp" line="571"/>
         <source>[%1] Unable to open file &quot;%2&quot;</source>
         <translation>[%1] Tiedoston &quot;%2&quot; avaaminen epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="574"/>
+        <location filename="../src/wordplay.cpp" line="578"/>
         <source>[%1] Reading file &quot;%2&quot; from &quot;%3&quot;</source>
         <translation>[%1] Luetaan tiedosto &quot;%2&quot; kansiosta &quot;%3&quot;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/wordplay.cpp" line="643"/>
+        <location filename="../src/wordplay.cpp" line="647"/>
         <source>[%1] %2 of %3 words loaded. Longest word was %n letter(s).</source>
         <translation>
             <numerusform>[%1] %3:sta sanasta %2 sanaa ladattu. Pisimmän sanan pituus oli %n merkki.</numerusform>
@@ -646,22 +646,22 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="646"/>
+        <location filename="../src/wordplay.cpp" line="650"/>
         <source>[%1] %2 words containing wrong amount of characters</source>
         <translation>[%1] %2 sanaa, jotka sisälsivät väärän määrän merkkejä</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="650"/>
+        <location filename="../src/wordplay.cpp" line="654"/>
         <source>[%1] %2 words not containing input characters</source>
         <translation>[%1] %2 sanaa, jotka eivät sisältäneet syötettyjä merkkejä</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="654"/>
+        <location filename="../src/wordplay.cpp" line="658"/>
         <source>[%1] %2 words not found in the input word</source>
         <translation>[%1] %2 sanoja, joita ei löytnyt syötetystä sanasta</translation>
     </message>
     <message>
-        <location filename="../src/wordplay.cpp" line="639"/>
+        <location filename="../src/wordplay.cpp" line="643"/>
         <source>[%1] No candidate words were found.</source>
         <translation>[%1] Hakusanoja ei löytnyt.</translation>
     </message>
