@@ -5,6 +5,8 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMutex>
+#include <QSemaphore>
+#include <QSharedPointer>
 #include <QStandardPaths>
 #include <QThread>
 
@@ -133,6 +135,7 @@ auto Wordplay::findAnagrams() -> QSet<QString>
         qInfo("%s", qUtf8Printable(tr("Anagrams found:")));
     }
 
+    const auto iteratorOffset = static_cast<qint64>(!args.allowDuplicates);
     QMutex mutex;
     QSet<QString> result;
     qint64 anagramCount = 0;
@@ -183,12 +186,13 @@ auto Wordplay::findAnagrams() -> QSet<QString>
             }
 
             acc.append(candidate);
-            recurse(extracted.value(), i + static_cast<qint64>(!args.allowDuplicates), acc);
+            recurse(extracted.value(), i + iteratorOffset, acc);
             acc.removeLast();
         }
     };
 
-    QList<QThread *> workers;
+    const int cores = QThread::idealThreadCount();
+    const auto semaphore = QSharedPointer<QSemaphore>(new QSemaphore(cores));
     const auto [start, end] = candidateRanges.value(initialWord.at(0), { 0, -1 });
     for (qint64 i = std::max(0LL, start); i <= end; ++i)
     {
@@ -206,17 +210,17 @@ auto Wordplay::findAnagrams() -> QSet<QString>
         }
 
         initialList.append(candidate);
-        auto *worker = QThread::create(recurse, extracted.value(), i + static_cast<qint64>(!args.allowDuplicates), initialList);
-        QObject::connect(worker, &QThread::finished, worker, &QThread::deleteLater);
-        workers.append(worker);
+        auto *worker = QThread::create(recurse, extracted.value(), i + iteratorOffset, initialList);
+        QObject::connect(worker, &QThread::finished, [=]() {
+            worker->deleteLater();
+            semaphore->release();
+        });
+        semaphore->acquire();
         worker->start();
         initialList.removeLast();
     }
 
-    for (auto *worker : workers)
-    {
-        worker->wait();
-    }
+    semaphore->acquire(cores);
 
     if (args.print)
     {
