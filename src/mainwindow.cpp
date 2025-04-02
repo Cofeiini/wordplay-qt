@@ -358,11 +358,12 @@ MainWindow::MainWindow(Wordplay &core, QWidget *parent) : QMainWindow(parent)
 
     auto *language = new QComboBox();
     translatedLanguages = QStringLiteral(I18N_TRANSLATED_LANGUAGES).split(QStringLiteral(","));
-    for (const auto &translated : translatedLanguages)
+    for (const auto &translated : std::as_const(translatedLanguages))
     {
         language->addItem(QLocale(translated).nativeLanguageName());
     }
-    for (const QString &locale : QLocale::system().uiLanguages())
+    const auto allLocales = QLocale::system().uiLanguages();
+    for (const QString &locale : allLocales)
     {
         const auto index = translatedLanguages.indexOf(locale);
         if (index > -1)
